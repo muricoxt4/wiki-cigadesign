@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../imagens/favicon.png">
+    <title>CIGA design Brasil | Manual do Usu&aacute;rio &middot; Rel&oacute;gio Mec&acirc;nico Autom&aacute;tico</title>
+    <meta name="description" content="Manual do usu&aacute;rio CIGA design. Guia de instala&ccedil;&atilde;o, ajuste e cuidados do rel&oacute;gio mec&acirc;nico autom&aacute;tico.">
+    <link rel="canonical" href="https://wiki.usecigadesign.com.br/manual-usuario/">
+
+    <!-- Open Graph / compartilhamento em WhatsApp, Instagram, LinkedIn -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="CIGA design Brasil · Presskit">
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:url" content="https://wiki.usecigadesign.com.br/manual-usuario/">
+    <meta property="og:title" content="CIGA design Brasil | Manual do Usu&aacute;rio &middot; Rel&oacute;gio Mec&acirc;nico Autom&aacute;tico">
+    <meta property="og:description" content="Manual do usu&aacute;rio CIGA design. Guia de instala&ccedil;&atilde;o, ajuste e cuidados do rel&oacute;gio mec&acirc;nico autom&aacute;tico.">
+    <meta property="og:image" content="https://wiki.usecigadesign.com.br/manual-usuario/imagens/manual-corda.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="CIGA design Brasil | Manual do Usu&aacute;rio &middot; Rel&oacute;gio Mec&acirc;nico Autom&aacute;tico">
+    <meta name="twitter:description" content="Manual do usu&aacute;rio CIGA design. Guia de instala&ccedil;&atilde;o, ajuste e cuidados do rel&oacute;gio mec&acirc;nico autom&aacute;tico.">
+    <meta name="twitter:image" content="https://wiki.usecigadesign.com.br/manual-usuario/imagens/manual-corda.png">
+    <style>
+        /* Brand Typography manualMarca */
+        @font-face {
+            font-family: 'CIGA Helvetica';
+            src: url('../manualMarca/fonts/HelveticaNeueLTPro-Lt.otf') format('opentype');
+            font-weight: 300;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'CIGA Helvetica';
+            src: url('../manualMarca/fonts/HelveticaNeueLTPro-Md.otf') format('opentype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'CIGA Helvetica';
+            src: url('../manualMarca/fonts/HelveticaNeueLTPro-Bd.otf') format('opentype');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        :root {
+            --bg:           #050505;
+            --bg-alt:       #0a0a0a;
+            --bg-card:      #0f0f0f;
+            --bg-card-hover:#161616;
+            --accent:       #2E7BC4;
+            --accent-light: #4A9BE8;
+            --accent-dim:   rgba(46, 123, 196, 0.12);
+            --gold:         #C9A962;
+            --gold-light:   #E5D4A1;
+            --gold-dim:     rgba(201, 169, 98, 0.10);
+            --text:         #ffffff;
+            --text-muted:   #a0a0a0;
+            --text-subtle:  #555555;
+            --border:       rgba(255,255,255,0.06);
+            --border-gold:  rgba(201, 169, 98, 0.25);
+
+            --paper:        #f5efe2;
+            --paper-deep:   #ebe2ce;
+            --paper-text:   #1a1a1a;
+            --paper-muted:  #5a5043;
+
+            --font-display: 'CIGA Helvetica', 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            --font-body:    'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            --radius:       4px;
+            --transition:   0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            overflow-x: hidden;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+        img { max-width: 100%; display: block; }
+        a { text-decoration: none; color: inherit; }
+
+        a:focus-visible, button:focus-visible {
+            outline: 2px solid var(--gold);
+            outline-offset: 3px;
+        }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+        /* ============================================================
+           NAV
+        ============================================================ */
+        .nav-header {
+            position: fixed;
+            inset: 0 0 auto 0;
+            z-index: 1000;
+            padding: 1.5rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to bottom, rgba(5,5,5,0.97) 0%, transparent 100%);
+            transition: padding var(--transition), background var(--transition);
+        }
+        .nav-header.scrolled {
+            background: rgba(5,5,5,0.97);
+            padding: 1rem 4rem;
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-logo img {
+            height: 40px;
+            width: auto;
+            display: block;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+        .nav-links a {
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: color var(--transition);
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent);
+            transition: width var(--transition);
+        }
+        .nav-links a:hover { color: var(--text); }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-back-link {
+            display: inline-flex !important;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.45rem 0.95rem;
+            color: var(--gold) !important;
+            border: 1px solid rgba(201, 169, 98, 0.45);
+            border-radius: 999px;
+            transition: all 0.3s ease;
+            font-weight: 600 !important;
+        }
+        .nav-back-link svg { width: 13px; height: 13px; transition: transform 0.3s ease; }
+        .nav-back-link:hover {
+            background: var(--gold);
+            color: var(--bg) !important;
+            border-color: var(--gold);
+        }
+        .nav-back-link:hover svg { transform: translateX(-3px); }
+        .nav-back-link::after { display: none !important; }
+        .nav-badge {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+            color: var(--bg);
+            padding: 0.45rem 1.1rem;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-radius: var(--radius);
+        }
+
+        /* ============================================================
+           HERO
+        ============================================================ */
+        .hero-section {
+            position: relative;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            padding: 10rem 4rem 5rem;
+        }
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .hero-bg-glow {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.18;
+        }
+        .hero-bg-glow--blue {
+            width: 700px; height: 700px;
+            background: var(--accent);
+            top: -200px; right: -100px;
+        }
+        .hero-bg-glow--gold {
+            width: 400px; height: 400px;
+            background: var(--gold);
+            bottom: -100px; left: 30%;
+            opacity: 0.10;
+        }
+        .hero-grid-overlay {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse 70% 70% at 80% 20%, rgba(0,0,0,0.6) 0%, transparent 70%);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 820px;
+            animation: heroFadeIn 1.2s cubic-bezier(0.4, 0, 0.2, 1) both;
+        }
+        @keyframes heroFadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .hero-eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold);
+        }
+        .hero-eyebrow-line {
+            flex: 1 1 auto;
+            max-width: 40px;
+            height: 1px;
+            background: var(--gold-dim);
+            border-top: 1px solid var(--gold);
+            opacity: 0.5;
+        }
+        .hero-title {
+            font-family: var(--font-display);
+            line-height: 1;
+            margin-bottom: 1.8rem;
+            display: flex;
+            flex-direction: column;
+        }
+        .hero-title-main {
+            font-size: clamp(3rem, 7vw, 5.5rem);
+            font-weight: 700;
+            letter-spacing: -1px;
+            color: var(--text);
+        }
+        .hero-title-sub {
+            font-size: clamp(1rem, 2vw, 1.4rem);
+            font-weight: 300;
+            letter-spacing: 4px;
+            color: var(--accent-light);
+            margin-top: 0.5em;
+            text-transform: uppercase;
+        }
+        .hero-description {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+            max-width: 580px;
+            margin-bottom: 2.5rem;
+        }
+        .hero-meta {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-subtle);
+        }
+        .hero-meta strong {
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        /* ============================================================
+           SHARED
+        ============================================================ */
+        .section-eyebrow {
+            display: block;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+            font-weight: 400;
+            line-height: 1.35;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+        .section-title em {
+            font-style: italic;
+            color: var(--gold);
+        }
+        .section-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+            max-width: 600px;
+        }
+
+        /* ============================================================
+           STEPS
+        ============================================================ */
+        .steps-section {
+            padding: 6rem 4rem;
+            background: var(--bg);
+        }
+        .steps-inner { max-width: 1200px; margin: 0 auto; }
+        .step {
+            display: grid;
+            grid-template-columns: 1fr 1.05fr;
+            gap: 4rem;
+            align-items: center;
+            padding: 4rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .step:last-of-type { border-bottom: none; }
+        .step--reverse { direction: rtl; }
+        .step--reverse > * { direction: ltr; }
+
+        .step-text-num {
+            font-family: var(--font-display);
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        .step-text-num::before {
+            content: '';
+            width: 32px;
+            height: 1px;
+            background: var(--gold);
+        }
+        .step-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.6rem, 2.8vw, 2.1rem);
+            font-weight: 400;
+            line-height: 1.35;
+            margin-bottom: 1.4rem;
+            color: var(--text);
+        }
+        .step-title strong { font-weight: 700; color: var(--accent-light); }
+        .step-text p {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            line-height: 1.85;
+            margin-bottom: 1rem;
+        }
+        .step-text p strong { color: var(--text); font-weight: 600; }
+        .step-text em { color: var(--gold-light); font-style: italic; }
+
+        .step-note {
+            margin-top: 1.4rem;
+            padding: 1.1rem 1.3rem;
+            background: var(--gold-dim);
+            border-left: 2px solid var(--gold);
+            border-radius: 0 var(--radius) var(--radius) 0;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.75;
+        }
+        .step-note-label {
+            display: inline-block;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-right: 0.4rem;
+        }
+
+        .reserve-states {
+            margin-top: 1.8rem;
+            border: 1px solid var(--border-gold);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+        .reserve-states-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--gold);
+            padding: 0.9rem 1.2rem;
+            background: var(--gold-dim);
+            border-bottom: 1px solid var(--border-gold);
+        }
+        .reserve-states-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+        .reserve-state {
+            padding: 1.2rem 1.3rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        .reserve-state + .reserve-state { border-left: 1px solid var(--border); }
+        .reserve-state strong {
+            display: block;
+            color: var(--text);
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 0.4rem;
+        }
+
+        .schematic {
+            position: relative;
+            background: var(--paper);
+            background-image:
+                radial-gradient(ellipse at top left, rgba(201,169,98,0.08), transparent 60%),
+                radial-gradient(ellipse at bottom right, rgba(46,123,196,0.04), transparent 60%);
+            border: 1px solid var(--border-gold);
+            border-radius: 6px;
+            padding: 2.5rem 2rem;
+            box-shadow:
+                0 30px 60px rgba(0,0,0,0.45),
+                inset 0 0 0 1px rgba(255,255,255,0.4);
+            overflow: hidden;
+        }
+        .schematic::before {
+            content: '';
+            position: absolute;
+            inset: 8px;
+            border: 1px dashed rgba(0,0,0,0.08);
+            border-radius: 4px;
+            pointer-events: none;
+        }
+        .schematic-header {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--paper-muted);
+            padding-bottom: 0.9rem;
+            margin-bottom: 1.4rem;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+        }
+        .schematic-header span:last-child { color: var(--gold); }
+        .schematic img {
+            width: 100%;
+            height: auto;
+            position: relative;
+            z-index: 1;
+        }
+        .schematic-caption {
+            position: relative;
+            margin-top: 1.4rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(0,0,0,0.08);
+            font-size: 0.72rem;
+            color: var(--paper-muted);
+            letter-spacing: 0.3px;
+            font-style: italic;
+            text-align: center;
+        }
+
+        /* ============================================================
+           CARE
+        ============================================================ */
+        .care-section {
+            padding: 7rem 4rem;
+            background: var(--bg-alt);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+        .care-inner { max-width: 1200px; margin: 0 auto; }
+        .care-header { margin-bottom: 3.5rem; max-width: 720px; }
+        .care-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        .care-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 2rem 1.8rem;
+            transition: border-color var(--transition), background var(--transition), transform var(--transition);
+        }
+        .care-card:hover {
+            border-color: var(--accent);
+            background: var(--bg-card-hover);
+            transform: translateY(-4px);
+        }
+        .care-card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--accent-dim);
+            border: 1px solid rgba(46,123,196,0.25);
+            color: var(--accent-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.4rem;
+        }
+        .care-card-icon svg { width: 20px; height: 20px; }
+        .care-card-title {
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            color: var(--text);
+            margin-bottom: 1.1rem;
+        }
+        .care-list {
+            list-style: none;
+            counter-reset: care;
+        }
+        .care-list li {
+            counter-increment: care;
+            position: relative;
+            padding-left: 2rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 0.9rem;
+        }
+        .care-list li:last-child { margin-bottom: 0; }
+        .care-list li::before {
+            content: counter(care, decimal-leading-zero);
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: var(--gold);
+        }
+
+        /* ============================================================
+           WARRANTY
+        ============================================================ */
+        .warranty-section {
+            padding: 7rem 4rem;
+            background: var(--bg);
+            text-align: center;
+        }
+        .warranty-inner { max-width: 760px; margin: 0 auto; }
+        .warranty-card {
+            border: 1px solid var(--border-gold);
+            background:
+                radial-gradient(ellipse at top, rgba(201,169,98,0.06), transparent 65%),
+                var(--bg-card);
+            border-radius: 8px;
+            padding: 3rem 2.5rem;
+            margin-top: 2.5rem;
+        }
+        .warranty-mark {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: var(--gold-dim);
+            border: 1px solid var(--border-gold);
+            color: var(--gold);
+            margin-bottom: 1.4rem;
+        }
+        .warranty-mark svg { width: 28px; height: 28px; }
+        .warranty-period {
+            font-family: var(--font-display);
+            font-size: clamp(2.4rem, 4vw, 3.4rem);
+            font-weight: 700;
+            color: var(--gold);
+            letter-spacing: -1px;
+            line-height: 1;
+            margin-bottom: 0.6rem;
+        }
+        .warranty-period-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 1.4rem;
+        }
+        .warranty-text {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.85;
+            max-width: 560px;
+            margin: 0 auto 2rem;
+        }
+        .warranty-divider {
+            width: 60px;
+            height: 1px;
+            background: var(--border-gold);
+            margin: 2rem auto;
+        }
+        .warranty-contact {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--text-subtle);
+            margin-bottom: 0.8rem;
+        }
+        .warranty-email {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--accent-light);
+            border-bottom: 1px solid rgba(74,155,232,0.3);
+            padding-bottom: 0.3rem;
+            transition: color var(--transition), border-color var(--transition);
+        }
+        .warranty-email:hover {
+            color: var(--gold);
+            border-color: var(--gold);
+        }
+        .warranty-email svg { width: 16px; height: 16px; }
+
+        /* ============================================================
+           BACK TO MENU (rodapé botão grande)
+        ============================================================ */
+        .back-to-menu-section {
+            background-color: var(--bg);
+            display: flex;
+            justify-content: center;
+            padding: 3rem 4rem 5rem;
+        }
+        .back-to-menu-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            padding: 1rem 2.2rem;
+            background: transparent;
+            color: var(--text);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 2px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+        .back-to-menu-btn svg { width: 16px; height: 16px; transition: transform 0.3s ease; }
+        .back-to-menu-btn:hover {
+            background: var(--accent);
+            color: #ffffff;
+            border-color: var(--accent);
+            box-shadow: 0 0 24px rgba(46, 123, 196, 0.35);
+        }
+        .back-to-menu-btn:hover svg { transform: translateX(-4px); }
+
+        /* ============================================================
+           FOOTER
+        ============================================================ */
+        .footer {
+            background: #020202;
+            border-top: 1px solid var(--border);
+            padding: 3rem 4rem 2rem;
+        }
+        .footer-top {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        .footer-logo {
+            height: 36px;
+            width: auto;
+            opacity: 0.85;
+        }
+        .footer-divider {
+            width: 1px;
+            height: 30px;
+            background: var(--border);
+        }
+        .footer-text {
+            font-size: 0.78rem;
+            color: var(--text-subtle);
+            line-height: 1.6;
+            max-width: 560px;
+        }
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.65rem;
+            color: var(--text-subtle);
+            letter-spacing: 0.5px;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .footer-badge {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            padding: 0.3rem 0.8rem;
+            border-radius: var(--radius);
+            font-size: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-subtle);
+        }
+
+        /* ============================================================
+           RESPONSIVE
+        ============================================================ */
+        @media (max-width: 1400px) {
+            .nav-header { padding: 1.4rem 3rem; }
+            .nav-header.scrolled { padding: 1rem 3rem; }
+            .hero-section { padding: 9rem 3rem 4rem; }
+            .steps-section { padding: 5rem 3rem; }
+            .care-section,
+            .warranty-section { padding: 6rem 3rem; }
+            .footer { padding: 3rem 3rem 2rem; }
+        }
+
+        @media (max-width: 1280px) {
+            .step { gap: 3rem; }
+            .care-grid { gap: 1.2rem; }
+        }
+
+        @media (max-width: 1100px) {
+            .step {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+            .step--reverse { direction: ltr; }
+            .care-grid { grid-template-columns: 1fr; }
+
+            .step-visual { max-width: 600px; margin: 0 auto; }
+        }
+
+        @media (max-width: 992px) {
+            .nav-header { padding: 1.2rem 2rem; }
+            .nav-header.scrolled { padding: 0.9rem 2rem; }
+            .hero-section { padding: 8rem 2rem 4rem; }
+            .steps-section { padding: 4.5rem 2rem; }
+            .care-section,
+            .warranty-section { padding: 5rem 2rem; }
+            .footer { padding: 2.5rem 2rem 1.8rem; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-header { padding: 1.2rem 1.2rem; }
+            .nav-header.scrolled { padding: 0.9rem 1.2rem; }
+            .nav-logo img { height: 32px; }
+            .nav-links { display: none; }
+            .nav-back-link {
+                display: inline-flex !important;
+                padding: 0.4rem 0.7rem;
+            }
+            .nav-back-link span { display: none; }
+            .nav-badge { font-size: 0.6rem; padding: 0.4rem 0.7rem; letter-spacing: 1.5px; }
+
+            .hero-section { padding: 7rem 1.2rem 3.5rem; }
+            .hero-title-main { font-size: clamp(2.2rem, 9vw, 3.4rem); }
+            .hero-title-sub { font-size: clamp(0.85rem, 3.5vw, 1.1rem); letter-spacing: 2px; }
+            .hero-description { font-size: 0.88rem; }
+            .hero-meta { gap: 1.2rem 1.6rem; font-size: 0.62rem; }
+            .hero-meta strong { font-size: 0.85rem; }
+
+            .steps-section { padding: 4rem 1.2rem; }
+            .care-section { padding: 4.5rem 1.2rem; }
+            .warranty-section { padding: 4.5rem 1.2rem; }
+            .footer { padding: 2.5rem 1.2rem 1.5rem; }
+            .back-to-menu-section { padding: 2rem 1.2rem 4rem; }
+
+            .step { padding: 2.5rem 0; gap: 2rem; }
+            .step-title { font-size: 1.4rem; }
+            .step-text p { font-size: 0.88rem; }
+            .step-note { font-size: 0.8rem; padding: 0.9rem 1rem; }
+
+            .reserve-states-grid { grid-template-columns: 1fr; }
+            .reserve-state + .reserve-state {
+                border-left: none;
+                border-top: 1px solid var(--border);
+            }
+            .reserve-state { padding: 0.9rem 1rem; font-size: 0.82rem; }
+
+            .care-card { padding: 1.5rem 1.2rem; }
+            .care-card-title { font-size: 1rem; }
+            .care-list li { font-size: 0.82rem; padding-left: 1.6rem; }
+
+            .warranty-card { padding: 2rem 1.2rem; }
+            .warranty-text { font-size: 0.85rem; }
+            .warranty-email { font-size: 0.85rem; word-break: break-all; }
+
+            .footer-top { flex-direction: column; align-items: flex-start; gap: 1.2rem; }
+            .footer-divider { display: none; }
+            .footer-bottom { flex-direction: column; align-items: flex-start; gap: 0.6rem; }
+            .footer-bottom > span:first-child { font-size: 0.6rem; line-height: 1.5; }
+            .schematic { padding: 1.5rem 1rem; }
+            .schematic-header { font-size: 0.55rem; }
+        }
+
+        @media (max-width: 480px) {
+            .nav-header,
+            .nav-header.scrolled { padding: 0.9rem 1rem; }
+            .nav-logo img { height: 28px; }
+            .nav-badge { display: none; }
+            .nav-back-link { padding: 0.4rem 0.6rem; font-size: 0.65rem; }
+            .nav-back-link svg { width: 12px; height: 12px; }
+
+            .hero-section { padding: 6rem 1rem 2.5rem; }
+            .hero-title-main { font-size: clamp(1.8rem, 10vw, 2.6rem); }
+            .hero-meta { flex-direction: column; gap: 0.5rem; }
+
+            .steps-section,
+            .care-section,
+            .warranty-section { padding: 3rem 1rem; }
+            .footer { padding: 2rem 1rem 1.2rem; }
+            .back-to-menu-section { padding: 1.5rem 1rem 3rem; }
+
+            .step { padding: 2rem 0; gap: 1.5rem; }
+            .step-text-num { font-size: 0.62rem; letter-spacing: 2.5px; }
+            .schematic { padding: 1.2rem 0.8rem; }
+
+            .care-card { padding: 1.2rem 1rem; }
+            .warranty-card { padding: 1.5rem 1rem; }
+            .warranty-mark { width: 52px; height: 52px; }
+            .warranty-mark svg { width: 22px; height: 22px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="nav-header" id="navHeader">
+        <div class="nav-logo">
+            <a href="../" title="Voltar &agrave; p&aacute;gina principal CIGA design">
+                <img src="imagens/ciga-logo.png" alt="CIGA design">
+            </a>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="../" class="nav-back-link" title="Voltar ao menu inicial"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg><span>Voltar ao Menu</span></a></li>
+                <li><a href="#instalacao">Instala&ccedil;&atilde;o</a></li>
+                <li><a href="#cuidados">Cuidados</a></li>
+                <li><a href="#garantia">Garantia</a></li>
+            </ul>
+        </nav>
+        <div class="nav-badge">Manual do Usu&aacute;rio</div>
+    </header>
+
+    <section class="hero-section" id="top">
+        <div class="hero-bg">
+            <div class="hero-bg-glow hero-bg-glow--blue"></div>
+            <div class="hero-bg-glow hero-bg-glow--gold"></div>
+            <div class="hero-grid-overlay"></div>
+        </div>
+
+        <div class="hero-content">
+            <div class="hero-eyebrow">
+                <span class="hero-eyebrow-line"></span>
+                <span>CIGA design &middot; Manual do Usu&aacute;rio</span>
+                <span class="hero-eyebrow-line"></span>
+            </div>
+
+            <h1 class="hero-title">
+                <span class="hero-title-main">Manual do Usu&aacute;rio</span>
+                <span class="hero-title-sub">Rel&oacute;gio Mec&acirc;nico Autom&aacute;tico</span>
+            </h1>
+
+            <p class="hero-description">
+                Guia completo de instala&ccedil;&atilde;o, ajuste e cuidados para preservar a precis&atilde;o e a beleza do seu rel&oacute;gio mec&acirc;nico autom&aacute;tico CIGA design por toda a vida &uacute;til.
+            </p>
+
+            <div class="hero-meta">
+                <span><strong>03</strong> &nbsp;Passos de Instala&ccedil;&atilde;o</span>
+                <span><strong>03</strong> &nbsp;Frentes de Cuidado</span>
+                <span><strong>24</strong> &nbsp;Meses de Garantia</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="steps-section" id="instalacao">
+        <div class="steps-inner">
+
+            <div class="care-header" style="margin-bottom: 1rem;">
+                <span class="section-eyebrow">Tutorial de Instala&ccedil;&atilde;o</span>
+                <h2 class="section-title">Antes de usar, <em>os primeiros passos</em></h2>
+                <p class="section-subtitle">
+                    Tr&ecirc;s etapas curtas para deixar seu rel&oacute;gio pronto: dar corda, acertar a hora e fixar a pulseira com a barra de mola de libera&ccedil;&atilde;o r&aacute;pida.
+                </p>
+            </div>
+
+            <article class="step">
+                <div class="step-text">
+                    <div class="step-text-num">Passo 01</div>
+                    <h3 class="step-title">Dando corda no seu <strong>novo rel&oacute;gio</strong></h3>
+                    <p>
+                        Seu rel&oacute;gio mec&acirc;nico pode parar caso o movimento n&atilde;o tenha recebido corda ou caso n&atilde;o seja usado por v&aacute;rios dias. Nesse caso, gire a coroa cerca de <strong>30 voltas</strong> manualmente, <strong>sem puxar a coroa para fora</strong>. O mecanismo de corda autom&aacute;tica garante que o movimento esteja totalmente carregado enquanto o rel&oacute;gio estiver no seu pulso. No entanto, voc&ecirc; tamb&eacute;m pode dar corda em um rel&oacute;gio autom&aacute;tico girando a coroa. <em>(Veja a figura 1.)</em>
+                    </p>
+
+                    <div class="step-note">
+                        <span class="step-note-label">Observa&ccedil;&atilde;o</span>
+                        ao balan&ccedil;ar os bra&ccedil;os para frente e para tr&aacute;s enquanto caminha com o rel&oacute;gio no pulso, o movimento natural produz energia, portanto n&atilde;o &eacute; necess&aacute;rio dar corda manualmente de forma intencional. Se voc&ecirc; n&atilde;o usar o rel&oacute;gio por um longo per&iacute;odo, ser&aacute; necess&aacute;rio dar corda seguindo as instru&ccedil;&otilde;es acima.
+                    </div>
+
+                    <div class="reserve-states">
+                        <div class="reserve-states-title">Estados da Reserva de Marcha</div>
+                        <div class="reserve-states-grid">
+                            <div class="reserve-state">
+                                <strong>Falta de Energia</strong>
+                                C&iacute;rculo vermelho aberto, frouxo
+                            </div>
+                            <div class="reserve-state">
+                                <strong>Reserva Completa</strong>
+                                C&iacute;rculo vermelho fechado, comprimido
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-visual">
+                    <div class="schematic">
+                        <div class="schematic-header">
+                            <span>Fig. 01 &middot; Dando corda no rel&oacute;gio</span>
+                            <span>&#9312; &#9313;</span>
+                        </div>
+                        <img src="imagens/manual-corda.png" alt="Diagrama 1: dando corda no rel&oacute;gio. Girar a coroa e estados da reserva de marcha indicados pelo c&iacute;rculo vermelho.">
+                        <div class="schematic-caption">Girar a coroa para carregar o movimento &middot; Indicador de reserva de marcha (Falta de energia &middot; Reserva de marcha completa)</div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="step step--reverse">
+                <div class="step-text">
+                    <div class="step-text-num">Passo 02</div>
+                    <h3 class="step-title">Acertando o <strong>seu rel&oacute;gio</strong></h3>
+                    <p>
+                        Puxe a coroa para fora e gire-a no sentido <strong>anti-hor&aacute;rio</strong> at&eacute; que os ponteiros indiquem a hora correta. Em seguida, empurre a coroa de volta para a posi&ccedil;&atilde;o original.
+                    </p>
+                    <p>
+                        Confirme se a coroa retornou totalmente &agrave; posi&ccedil;&atilde;o inicial. Isso preserva a prote&ccedil;&atilde;o do movimento e a veda&ccedil;&atilde;o contra poeira e umidade.
+                    </p>
+                </div>
+
+                <div class="step-visual">
+                    <div class="schematic">
+                        <div class="schematic-header">
+                            <span>Fig. 02 &middot; Acertando o rel&oacute;gio</span>
+                            <span>&#8635;</span>
+                        </div>
+                        <img src="imagens/manual-acerto.png" alt="Diagrama 2: acertando o rel&oacute;gio. Puxar a coroa para fora e girar no sentido anti-hor&aacute;rio at&eacute; a hora correta.">
+                        <div class="schematic-caption">Coroa puxada para fora &middot; Rota&ccedil;&atilde;o anti-hor&aacute;ria para ajuste dos ponteiros</div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="step">
+                <div class="step-text">
+                    <div class="step-text-num">Passo 03</div>
+                    <h3 class="step-title">Instalando a <strong>pulseira</strong></h3>
+                    <p>
+                        Consulte o <strong>Diagrama 3</strong>. Vire a caixa do rel&oacute;gio com a parte traseira para cima. Puxe suavemente para baixo a pequena alavanca da <em>barra de mola de libera&ccedil;&atilde;o r&aacute;pida</em> (quick-release spring bar) e encaixe-a no furo do bra&ccedil;o (lug). Alinhe a alavanca com o furo e solte-a para fixar a pulseira.
+                    </p>
+                    <p>
+                        Certifique-se de que a pulseira est&aacute; firmemente travada antes de usar o rel&oacute;gio. Uma fixa&ccedil;&atilde;o correta evita folgas e protege o sistema de troca r&aacute;pida.
+                    </p>
+                </div>
+
+                <div class="step-visual">
+                    <div class="schematic">
+                        <div class="schematic-header">
+                            <span>Fig. 03 &middot; Instalando a pulseira</span>
+                            <span>&#9314;</span>
+                        </div>
+                        <img src="imagens/manual-pulseira.png" alt="Diagrama 3: instalando a pulseira. Vista traseira do rel&oacute;gio mostrando a barra de mola de libera&ccedil;&atilde;o r&aacute;pida e o furo interno do bra&ccedil;o.">
+                        <div class="schematic-caption">Barra de mola de libera&ccedil;&atilde;o r&aacute;pida &middot; Furo interno do bra&ccedil;o &middot; Vista traseira</div>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+    </section>
+
+    <section class="care-section" id="cuidados">
+        <div class="care-inner">
+            <div class="care-header">
+                <span class="section-eyebrow">Manuten&ccedil;&atilde;o Di&aacute;ria e Cuidados</span>
+                <h2 class="section-title">Cuidar do seu rel&oacute;gio<br><em>preserva sua hist&oacute;ria</em></h2>
+                <p class="section-subtitle">
+                    Boas pr&aacute;ticas de prote&ccedil;&atilde;o contra a &aacute;gua, armazenamento e uso para manter o desempenho mec&acirc;nico e o acabamento do seu CIGA design por anos.
+                </p>
+            </div>
+
+            <div class="care-grid">
+
+                <article class="care-card">
+                    <div class="care-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2.5s-6 7.5-6 12a6 6 0 0 0 12 0c0-4.5-6-12-6-12z"/>
+                            <path d="M9 14a3 3 0 0 0 3 3"/>
+                        </svg>
+                    </div>
+                    <h3 class="care-card-title">Prote&ccedil;&atilde;o contra a &aacute;gua</h3>
+                    <ol class="care-list">
+                        <li>Se o rel&oacute;gio molhar ou apresentar condensa&ccedil;&atilde;o interna, limpe-o imediatamente para evitar corros&atilde;o e oxida&ccedil;&atilde;o das pe&ccedil;as.</li>
+                        <li>N&atilde;o utilize o rel&oacute;gio (inclusive modelos resistentes &agrave; &aacute;gua) durante banhos quentes, saunas ou em ambientes de alta umidade, para n&atilde;o comprometer o desempenho das veda&ccedil;&otilde;es.</li>
+                        <li>Como as veda&ccedil;&otilde;es envelhecem com facilidade, substitua-as periodicamente ou em cada revis&atilde;o.</li>
+                        <li>Caso haja uma haste de prote&ccedil;&atilde;o fixada na tampa traseira, remova-a antes de usar o rel&oacute;gio.</li>
+                    </ol>
+                </article>
+
+                <article class="care-card">
+                    <div class="care-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 8v13H3V8"/>
+                            <path d="M1 3h22v5H1z"/>
+                            <path d="M10 12h4"/>
+                        </svg>
+                    </div>
+                    <h3 class="care-card-title">Armazenamento</h3>
+                    <ol class="care-list">
+                        <li>Se voc&ecirc; n&atilde;o for usar o rel&oacute;gio por um longo per&iacute;odo, guarde-o em local seco. N&atilde;o o coloque pr&oacute;ximo a naftalina, solventes, merc&uacute;rio, sprays cosm&eacute;ticos, detergentes, adesivos ou tintas, para evitar desbotamento, deteriora&ccedil;&atilde;o ou danos &agrave; pintura da caixa e da pulseira.</li>
+                        <li>Se voc&ecirc; n&atilde;o usar o rel&oacute;gio por muito tempo, o movimento ficar&aacute; est&aacute;tico por falta de energia. Voc&ecirc; pode dar corda novamente seguindo as instru&ccedil;&otilde;es de instala&ccedil;&atilde;o.</li>
+                    </ol>
+                </article>
+
+                <article class="care-card">
+                    <div class="care-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="9"/>
+                            <path d="M12 7v5l3 2"/>
+                        </svg>
+                    </div>
+                    <h3 class="care-card-title">Uso di&aacute;rio</h3>
+                    <ol class="care-list">
+                        <li>Este rel&oacute;gio n&atilde;o foi projetado para uso submerso, e a impermeabilidade n&atilde;o pode ser garantida permanentemente devido ao envelhecimento das veda&ccedil;&otilde;es. N&atilde;o exponha o rel&oacute;gio a campos magn&eacute;ticos intensos e evite choques t&eacute;rmicos ou impactos, pois podem causar danos.</li>
+                        <li>Pessoas n&atilde;o especializadas n&atilde;o devem abrir a tampa traseira nem desmontar o rel&oacute;gio, para evitar a entrada de &aacute;gua e de poeira do ar, que podem causar falhas.</li>
+                    </ol>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="warranty-section" id="garantia">
+        <div class="warranty-inner">
+            <span class="section-eyebrow">Garantia &amp; Atendimento</span>
+            <h2 class="section-title">Compromisso <em>com cada pe&ccedil;a</em></h2>
+
+            <div class="warranty-card">
+                <div class="warranty-mark">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4z"/>
+                        <path d="M9 12l2 2 4-4"/>
+                    </svg>
+                </div>
+                <div class="warranty-period">24 meses</div>
+                <div class="warranty-period-label">Garantia Gratuita</div>
+
+                <p class="warranty-text">
+                    A empresa oferece garantia gratuita de <strong style="color:var(--text);">24 meses</strong> a partir da data da compra. Servi&ccedil;os pagos de reparo e manuten&ccedil;&atilde;o est&atilde;o dispon&iacute;veis ap&oacute;s o t&eacute;rmino da garantia e para situa&ccedil;&otilde;es fora do seu escopo.
+                </p>
+
+                <div class="warranty-divider"></div>
+
+                <div class="warranty-contact">E-mail de Atendimento ao Cliente &middot; Brasil</div>
+                <a href="mailto:contato@cigadesign.com.br" class="warranty-email">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                        <polyline points="22,6 12,13 2,6"/>
+                    </svg>
+                    contato@cigadesign.com.br
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="back-to-menu-section">
+        <a href="../" class="back-to-menu-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            Voltar ao Menu Principal
+        </a>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-top">
+            <img src="imagens/ciga-logo.png" alt="CIGA design" class="footer-logo">
+            <div class="footer-divider"></div>
+            <p class="footer-text">
+                Documento traduzido para portugu&ecirc;s brasileiro a partir do User Guide original (CIGA design). Conte&uacute;do t&eacute;cnico mantido fiel ao manual de origem.
+            </p>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 CIGA design Brasil &middot; JG Importadora Ltda &middot; CNPJ 54.869.919/0001-45</span>
+            <span class="footer-badge">Manual do Usu&aacute;rio &middot; PT-BR</span>
+        </div>
+    </footer>
+
+    <script>
+        const navHeader = document.getElementById('navHeader');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 40) {
+                navHeader.classList.add('scrolled');
+            } else {
+                navHeader.classList.remove('scrolled');
+            }
+        }, { passive: true });
+    </script>
+</body>
+</html>

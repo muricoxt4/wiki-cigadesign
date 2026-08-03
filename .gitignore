@@ -1,0 +1,30 @@
+# Sistema operacional
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Configuração local do Claude Code
+.claude/
+
+# Arquivos temporários do projeto
+.tmp_*
+*.tmp
+*.bak
+*.swp
+*~
+
+# Logs e caches
+*.log
+.cache/
+node_modules/
+
+# Editores
+.vscode/
+.idea/
+
+# Zips e PDFs internos (usar fora do deploy)
+*.zip
+*.pdf
+
+# Artefatos de teste automatizado
+.playwright-mcp/
