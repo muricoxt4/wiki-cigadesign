@@ -9,7 +9,8 @@
 
 @font-face {
     font-family: 'CIGA Helvetica';
-    src: url('manualMarca/fonts/HelveticaNeueLTPro-Md.otf') format('opentype');
+    src: url('manualMarca/fonts/HelveticaNeueLTPro-Md.woff2') format('woff2'),
+         url('manualMarca/fonts/HelveticaNeueLTPro-Md.otf') format('opentype');
     font-weight: 400;
     font-style: normal;
     font-display: swap;
@@ -29,20 +30,6 @@
     font-weight: 700;
     font-style: normal;
     font-display: swap;
-}
-
-/* Correcao: no Chrome, a face Md (peso 400) renderiza letras acentuadas
-   (á é í ó ú â ê ô ã õ...) com avanco quase nulo, sobrepondo a letra
-   seguinte (ex.: "Relógio"). Para esses codepoints, o peso 400 usa a
-   face Lt, que renderiza corretamente. O cedilha (ç/Ç) renderiza bem
-   na Md e fica fora do intervalo. */
-@font-face {
-    font-family: 'CIGA Helvetica';
-    src: url('manualMarca/fonts/HelveticaNeueLTPro-Lt.otf') format('opentype');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-    unicode-range: U+00C0-00C6, U+00C8-00E6, U+00E8-017F;
 }
 
 /* ==========================================================
