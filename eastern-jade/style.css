@@ -31,6 +31,20 @@
     font-display: swap;
 }
 
+/* Correcao: no Chrome, a face Md (peso 400) renderiza letras acentuadas
+   (á é í ó ú â ê ô ã õ...) com avanco quase nulo, sobrepondo a letra
+   seguinte (ex.: "Especificações"). Para esses codepoints, o peso 400 usa a
+   face Lt, que renderiza corretamente. O cedilha (ç/Ç) renderiza bem
+   na Md e fica fora do intervalo. */
+@font-face {
+    font-family: 'CIGA Helvetica';
+    src: url('../manualMarca/fonts/HelveticaNeueLTPro-Lt.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+00C0-00C6, U+00C8-00E6, U+00E8-017F;
+}
+
 :root {
     --color-bg: #050505;
     --color-bg-alt: #0a0a0a;
@@ -1855,4 +1869,98 @@ body.lightbox-open {
     .variant-card { padding: 1.2rem 0.8rem; }
     .variant-swatch { width: 60px; height: 60px; }
     .variant-name { font-size: 0.65rem; letter-spacing: 1.2px; }
+}
+
+/* ============================================
+   PREÇO E CONDIÇÕES (card de compra)
+   ============================================ */
+.purchase-price {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    margin-bottom: 1.2rem;
+}
+
+.purchase-price-label {
+    color: var(--color-text-subtle);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+}
+
+.purchase-price-value {
+    font-family: var(--font-display);
+    font-size: clamp(1.9rem, 1.5rem + 1.8vw, 2.6rem);
+    font-weight: 600;
+    color: var(--color-gold);
+    letter-spacing: 0.01em;
+    line-height: 1.1;
+}
+
+.purchase-variants {
+    list-style: none;
+    margin: 0 auto 1.4rem;
+    padding: 0;
+    max-width: 380px;
+}
+
+.purchase-variants li {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1.5rem;
+    padding: 0.45rem 0.2rem;
+    border-bottom: 1px solid rgba(201, 169, 98, 0.12);
+    color: var(--color-text-muted);
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+}
+
+.purchase-variants li:last-child {
+    border-bottom: none;
+}
+
+.purchase-variants li span:last-child {
+    color: var(--color-text);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.purchase-price-note {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.9rem;
+}
+
+.purchase-chip {
+    display: inline-block;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid rgba(201, 169, 98, 0.3);
+    border-radius: 999px;
+    color: var(--color-gold);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.purchase-price-caption {
+    color: var(--color-text-subtle);
+    font-size: 0.72rem;
+    line-height: 1.5;
+    margin-bottom: 2.2rem;
+}
+
+@media (max-width: 480px) {
+    .purchase-price-value { font-size: 1.7rem; }
+    .purchase-chip {
+        font-size: 0.62rem;
+        padding: 0.35rem 0.7rem;
+        letter-spacing: 1px;
+    }
 }
