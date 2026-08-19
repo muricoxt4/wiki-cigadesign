@@ -169,6 +169,25 @@ button:focus-visible {
     border-radius: var(--radius);
 }
 
+/* Botão hambúrguer (visível apenas no mobile) */
+.nav-toggle {
+    display: none;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    padding: 10px;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.nav-toggle span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--text-muted);
+    transition: 0.2s;
+}
+
 /* ================================================================
    HERO
 ================================================================ */
@@ -608,6 +627,32 @@ button:focus-visible {
     color: var(--rose);
 }
 
+/* Variants badge (contagem de versões sobre a imagem) */
+.watch-card-variants-badge {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    z-index: 3;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    color: var(--gold);
+    border: 1px solid rgba(201, 169, 98, 0.4);
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.watch-card-variants-badge svg {
+    width: 12px;
+    height: 12px;
+}
+
 /* Image wrap */
 .watch-card-img-wrap {
     position: relative;
@@ -806,7 +851,8 @@ button:focus-visible {
     text-transform: uppercase;
     color: var(--accent-light);
     border-bottom: 1px solid rgba(74,155,232,0.3);
-    padding-bottom: 0.3rem;
+    padding: 0.6rem 0;
+    margin: -0.6rem 0;
     transition: all var(--transition);
 }
 
@@ -1043,7 +1089,30 @@ button:focus-visible {
     .nav-header { padding: 1.2rem 1.2rem; }
     .nav-header.scrolled { padding: 0.9rem 1.2rem; }
     .nav-logo img { height: 32px; }
-    .nav-links { display: none; }
+
+    /* Menu mobile: dropdown ancorado ao header fixo */
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        background: rgba(5,5,5,0.97);
+        border-bottom: 1px solid var(--border);
+        padding: 0.5rem 1rem 1rem;
+        gap: 0.25rem;
+    }
+
+    .nav-header.nav-open .nav-links { display: flex; }
+
+    .nav-links a {
+        display: block;
+        padding: 0.85rem 0.5rem;
+    }
+
+    .nav-toggle { display: inline-flex; }
+
     .nav-badge { font-size: 0.6rem; padding: 0.4rem 0.7rem; letter-spacing: 1.5px; }
 
     .hero-section { padding: 6rem 1.2rem 3rem; }
@@ -1054,7 +1123,16 @@ button:focus-visible {
     .contact-section { padding: 4rem 1.2rem; }
     .footer { padding: 2.5rem 1.2rem 1.5rem; }
 
-    .watches-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    .watches-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        background: transparent;
+        border: none;
+    }
+    .watch-card {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+    }
     .watch-card-body { padding: 1.5rem 1.2rem; }
     .watch-card-img-wrap { aspect-ratio: 16/10; }
 
@@ -1071,11 +1149,6 @@ button:focus-visible {
     .hero-stat-number { font-size: 1.6rem; }
 
     .filter-bar { flex-wrap: wrap; gap: 0.6rem; }
-
-    .manual-banner-meta { gap: 1.2rem 1.6rem; font-size: 0.6rem; }
-    .manual-banner-meta strong { font-size: 1.1rem; }
-    .manual-banner-cta { padding: 0.9rem 1.6rem; font-size: 0.7rem; letter-spacing: 1.5px; }
-    .manual-banner-cta svg { width: 14px; height: 14px; }
 }
 
 @media (max-width: 480px) {
@@ -1106,12 +1179,6 @@ button:focus-visible {
     .watch-card-btn { padding: 0.7rem 1.2rem; font-size: 0.7rem; }
     .watch-card-variants-badge { font-size: 0.55rem; padding: 0.3rem 0.55rem; }
     .watch-card-variants-badge svg { width: 10px; height: 10px; }
-
-    .manual-section { padding: 3rem 1rem; }
-    .manual-banner { padding: 1.5rem 1.2rem; gap: 1.5rem; }
-    .manual-banner-title { font-size: 1.4rem; }
-    .manual-banner-desc { font-size: 0.85rem; }
-    .manual-banner-cta { padding: 0.85rem 1.3rem; font-size: 0.65rem; gap: 0.4rem; }
 
     .about-text h2 { font-size: 1.5rem; }
     .about-link { font-size: 0.78rem; padding: 0.7rem 1rem; }
@@ -1362,4 +1429,26 @@ button:focus-visible {
 @media (max-width: 768px) {
     .manual-section { padding: 4rem 1.5rem; }
     .manual-banner { padding: 2rem 1.5rem; }
+    .manual-banner-meta { gap: 1.2rem 1.6rem; font-size: 0.6rem; }
+    .manual-banner-meta strong { font-size: 1.1rem; }
+    .manual-banner-cta { padding: 0.9rem 1.6rem; font-size: 0.7rem; letter-spacing: 1.5px; }
+    .manual-banner-cta svg { width: 14px; height: 14px; }
+}
+
+@media (max-width: 480px) {
+    .manual-section { padding: 3rem 1rem; }
+    .manual-banner { padding: 1.5rem 1.2rem; gap: 1.5rem; }
+    .manual-banner-title { font-size: 1.4rem; }
+    .manual-banner-desc { font-size: 0.85rem; }
+    .manual-banner-cta { padding: 0.85rem 1.3rem; font-size: 0.65rem; gap: 0.4rem; }
+
+    /* Miniaturas do banner: mantém 3 colunas com respiro reduzido */
+    .manual-banner-visual { gap: 0.5rem; }
+    .manual-banner-thumb { padding: 0.4rem; }
+
+    /* Header em telas pequenas é mais baixo (~57px) que os 110px da base */
+    .collection-section,
+    .about-section,
+    .contact-section,
+    .manual-section { scroll-margin-top: 70px; }
 }

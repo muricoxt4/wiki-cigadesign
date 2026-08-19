@@ -7,6 +7,29 @@ if (navHeader) {
     }, { passive: true });
 }
 
+const navToggle = document.querySelector('.nav-toggle');
+const navLinksMenu = document.querySelector('.nav-links');
+
+if (navToggle && navHeader) {
+    const closeNavMenu = () => {
+        navHeader.classList.remove('nav-open');
+        navToggle.setAttribute('aria-expanded', 'false');
+        navToggle.setAttribute('aria-label', 'Abrir menu');
+    };
+
+    navToggle.addEventListener('click', () => {
+        const isOpen = navHeader.classList.toggle('nav-open');
+        navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        navToggle.setAttribute('aria-label', isOpen ? 'Fechar menu' : 'Abrir menu');
+    });
+
+    if (navLinksMenu) {
+        navLinksMenu.querySelectorAll('a').forEach((link) => {
+            link.addEventListener('click', closeNavMenu);
+        });
+    }
+}
+
 const getAnchorOffset = () => {
     const headerHeight = navHeader ? navHeader.offsetHeight : 0;
     return headerHeight + 16;

@@ -33,17 +33,24 @@
 
         body {
             min-height: 100vh;
+            min-height: 100svh;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 1.5rem;
             padding: 2rem;
             text-align: center;
             background: var(--bg);
             color: var(--text);
             font-family: 'CIGA Helvetica', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
             font-weight: 300;
+        }
+
+        /* margin: auto centraliza sem cortar o topo quando o conteúdo excede a altura da tela */
+        main {
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
         }
 
         .logo { width: 130px; opacity: .9; margin-bottom: 1rem; }
@@ -94,20 +101,26 @@
             color: #555;
             text-transform: uppercase;
         }
+
+        @media (max-width: 480px) {
+            body { padding: 1rem; }
+        }
     </style>
 </head>
 <body>
-    <img src="/imagens/ciga-logo.png" alt="CIGA design" class="logo">
+    <main>
+        <img src="/imagens/ciga-logo.png" alt="CIGA design" class="logo">
 
-    <div class="code">404</div>
-    <h1>Esta página não existe</h1>
-    <p>O endereço acessado não faz parte do presskit da CIGA design Brasil, ou o material foi movido. Volte ao índice para acessar todos os modelos da coleção.</p>
+        <div class="code">404</div>
+        <h1>Esta página não existe</h1>
+        <p>O endereço acessado não faz parte do presskit da CIGA design Brasil, ou o material foi movido. Volte ao índice para acessar todos os modelos da coleção.</p>
 
-    <div class="actions">
-        <a class="btn" href="/">Voltar ao presskit</a>
-        <a class="btn gold" href="https://www.usecigadesign.com.br/" target="_blank" rel="noopener">Site oficial</a>
-    </div>
+        <div class="actions">
+            <a class="btn" href="/">Voltar ao presskit</a>
+            <a class="btn gold" href="https://www.usecigadesign.com.br/" target="_blank" rel="noopener">Site oficial</a>
+        </div>
 
-    <footer>CIGA design Brasil · Presskit</footer>
+        <footer>CIGA design Brasil · Presskit</footer>
+    </main>
 </body>
 </html>

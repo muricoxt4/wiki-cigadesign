@@ -147,11 +147,19 @@
         }
         .nav-links a:hover { color: var(--text); }
         .nav-links a:hover::after { width: 100%; }
+        .nav-header nav {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+        }
         .nav-back-link {
             display: inline-flex !important;
             align-items: center;
             gap: 0.45rem;
             padding: 0.45rem 0.95rem;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
             color: var(--gold) !important;
             border: 1px solid rgba(201, 169, 98, 0.45);
             border-radius: 999px;
@@ -166,6 +174,22 @@
         }
         .nav-back-link:hover svg { transform: translateX(-3px); }
         .nav-back-link::after { display: none !important; }
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: 0;
+            cursor: pointer;
+            padding: 10px;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .nav-toggle span {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background: var(--text);
+            transition: 0.2s;
+        }
         .nav-badge {
             background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
             color: var(--bg);
@@ -218,6 +242,7 @@
                 linear-gradient(var(--border) 1px, transparent 1px),
                 linear-gradient(90deg, var(--border) 1px, transparent 1px);
             background-size: 60px 60px;
+            -webkit-mask-image: radial-gradient(ellipse 70% 70% at 80% 20%, rgba(0,0,0,0.6) 0%, transparent 70%);
             mask-image: radial-gradient(ellipse 70% 70% at 80% 20%, rgba(0,0,0,0.6) 0%, transparent 70%);
         }
         .hero-content {
@@ -691,12 +716,32 @@
         }
 
         .slogans-table-wrap {
+            position: relative;
             border: 1px solid var(--border-gold);
             border-radius: 6px;
             overflow: hidden;
-            overflow-x: auto;
             margin-bottom: 3.5rem;
         }
+        .slogans-table-scroll {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        /* Hint de rolagem horizontal: fade na borda direita, visível
+           apenas enquanto houver conteúdo cortado (classe via JS) */
+        .slogans-table-wrap::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 44px;
+            background: linear-gradient(to left, var(--bg-alt) 12%, rgba(10,10,10,0));
+            border-radius: 0 6px 6px 0;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+        .slogans-table-wrap.has-overflow::after { opacity: 1; }
         .slogans-table {
             width: 100%;
             border-collapse: collapse;
@@ -908,10 +953,26 @@
             .nav-header { padding: 1.2rem 1.2rem; }
             .nav-header.scrolled { padding: 0.9rem 1.2rem; }
             .nav-logo img { height: 32px; }
-            .nav-links { display: none; }
+            .nav-header nav { gap: 1rem; }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                background: rgba(5,5,5,0.97);
+                border-bottom: 1px solid var(--border);
+                padding: 0.5rem 1rem 1rem;
+                gap: 0.25rem;
+            }
+            .nav-header.nav-open .nav-links { display: flex; }
+            .nav-links li { width: 100%; }
+            .nav-links a { display: block; padding: 0.85rem 0.5rem; }
+            .nav-toggle { display: inline-flex; }
             .nav-back-link {
                 display: inline-flex !important;
-                padding: 0.4rem 0.7rem;
+                padding: 1rem;
             }
             .nav-back-link span { display: none; }
             .nav-badge { font-size: 0.6rem; padding: 0.4rem 0.7rem; letter-spacing: 1.5px; }
@@ -956,7 +1017,7 @@
             .nav-header.scrolled { padding: 0.9rem 1rem; }
             .nav-logo img { height: 28px; }
             .nav-badge { display: none; }
-            .nav-back-link { padding: 0.4rem 0.6rem; font-size: 0.65rem; }
+            .nav-back-link { padding: 1rem; font-size: 0.65rem; }
             .nav-back-link svg { width: 12px; height: 12px; }
 
             .hero-section { padding: 6rem 1rem 2.5rem; }
@@ -973,7 +1034,10 @@
             .footer { padding: 2rem 1rem 1.2rem; }
             .back-to-menu-section { padding: 1.5rem 1rem 3rem; }
 
-            .numbers-grid { grid-template-columns: 1fr 1fr; }
+            /* Coluna única: evita valores quebrados ("GPHG 2021"),
+               labels espremidos e o 5º card órfão do layout 2x2+1 */
+            .numbers-grid { grid-template-columns: 1fr; gap: 0.7rem; }
+            .number-card { padding: 1.1rem 1rem; }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -1096,6 +1160,14 @@
             border-radius: 3px;
             cursor: pointer;
         }
+        /* Hit area >= 44px sem mudar o visual: o clique no ::before conta
+           como clique no próprio .podcast-progress, e o cálculo do seek no
+           JS usa apenas rect.left/rect.width (eixo X), que não mudam. */
+        .podcast-progress::before {
+            content: '';
+            position: absolute;
+            inset: -19px 0;
+        }
         .podcast-progress-fill {
             position: absolute;
             top: 0;
@@ -1152,14 +1224,15 @@
             </a>
         </div>
         <nav>
+            <a href="../" class="nav-back-link" title="Voltar ao menu inicial"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg><span>Voltar ao Menu</span></a>
             <ul class="nav-links">
-                <li><a href="../" class="nav-back-link" title="Voltar ao menu inicial"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg><span>Voltar ao Menu</span></a></li>
                 <li><a href="#podcast">Podcast</a></li>
                 <li><a href="#origem">Origem</a></li>
                 <li><a href="#linha-do-tempo">Linha do Tempo</a></li>
                 <li><a href="#pilares">Pilares</a></li>
                 <li><a href="#discurso">Discurso</a></li>
             </ul>
+            <button class="nav-toggle" aria-label="Abrir menu" aria-expanded="false"><span></span><span></span><span></span></button>
         </nav>
         <div class="nav-badge">História da Marca</div>
     </header>
@@ -1599,6 +1672,7 @@
             </div>
 
             <div class="slogans-table-wrap">
+                <div class="slogans-table-scroll">
                 <table class="slogans-table">
                     <thead>
                         <tr>
@@ -1629,6 +1703,7 @@
                         </tr>
                     </tbody>
                 </table>
+                </div>
             </div>
 
             <p class="numbers-note">
@@ -1730,6 +1805,44 @@
                 navHeader.classList.remove('scrolled');
             }
         }, { passive: true });
+
+        // Menu hambúrguer (mobile)
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinksMenu = document.querySelector('.nav-links');
+
+        if (navToggle && navHeader) {
+            const closeNavMenu = () => {
+                navHeader.classList.remove('nav-open');
+                navToggle.setAttribute('aria-expanded', 'false');
+                navToggle.setAttribute('aria-label', 'Abrir menu');
+            };
+
+            navToggle.addEventListener('click', () => {
+                const isOpen = navHeader.classList.toggle('nav-open');
+                navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                navToggle.setAttribute('aria-label', isOpen ? 'Fechar menu' : 'Abrir menu');
+            });
+
+            if (navLinksMenu) {
+                navLinksMenu.querySelectorAll('a').forEach((link) => {
+                    link.addEventListener('click', closeNavMenu);
+                });
+            }
+        }
+
+        // Hint de rolagem horizontal da tabela de slogans
+        const slogansScroll = document.querySelector('.slogans-table-scroll');
+        if (slogansScroll) {
+            const slogansWrap = slogansScroll.closest('.slogans-table-wrap');
+            const updateSlogansHint = () => {
+                const maxScroll = slogansScroll.scrollWidth - slogansScroll.clientWidth;
+                const hasMore = maxScroll > 1 && slogansScroll.scrollLeft < maxScroll - 1;
+                slogansWrap.classList.toggle('has-overflow', hasMore);
+            };
+            slogansScroll.addEventListener('scroll', updateSlogansHint, { passive: true });
+            window.addEventListener('resize', updateSlogansHint, { passive: true });
+            updateSlogansHint();
+        }
 
         // Player do podcast "Como a CIGA design venceu os suíços"
         const podcastAudio = document.getElementById('podcastAudio');

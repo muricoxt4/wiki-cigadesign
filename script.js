@@ -15,6 +15,22 @@
         }, { passive: true });
     }
 
+    const navToggle = document.querySelector('.nav-toggle');
+
+    if (navHeader && navToggle) {
+        navToggle.addEventListener('click', () => {
+            const isOpen = navHeader.classList.toggle('nav-open');
+            navToggle.setAttribute('aria-expanded', String(isOpen));
+        });
+
+        document.querySelectorAll('.nav-links a').forEach((link) => {
+            link.addEventListener('click', () => {
+                navHeader.classList.remove('nav-open');
+                navToggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+    }
+
     const getAnchorOffset = () => {
         const headerHeight = navHeader ? navHeader.offsetHeight : 0;
         return headerHeight + 16;
