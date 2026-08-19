@@ -156,6 +156,26 @@
         }, { threshold: 0.5 });
 
         statNumbers.forEach((el) => statsObserver.observe(el));
+
+        // Rolagem rápida ou salto por âncora pode passar pelos observers sem disparo,
+        // deixando cards e seções invisíveis; este reforço revela o que já entrou na tela.
+        const revealMissed = () => {
+            const limit = window.scrollY + window.innerHeight + 50;
+            watchCards.forEach((card) => {
+                if (!card.classList.contains('visible') && card.getBoundingClientRect().top + window.scrollY < limit) {
+                    card.classList.add('visible');
+                    cardObserver.unobserve(card);
+                }
+            });
+            document.querySelectorAll('.about-inner, .contact-inner').forEach((element) => {
+                if (!element.classList.contains('visible') && element.getBoundingClientRect().top + window.scrollY < limit) {
+                    element.classList.add('visible');
+                    fadeObserver.unobserve(element);
+                }
+            });
+        };
+        window.addEventListener('scroll', revealMissed, { passive: true });
+        window.addEventListener('load', revealMissed);
     } else {
         watchCards.forEach((card) => card.classList.add('visible'));
         document.querySelectorAll('.about-inner, .contact-inner').forEach((element) => element.classList.add('visible'));

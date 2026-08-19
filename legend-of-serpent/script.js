@@ -44,6 +44,20 @@ if ('IntersectionObserver' in window) {
     });
 
     fadeElements.forEach((element) => fadeObserver.observe(element));
+
+    // Rolagem rapida ou salto por ancora pode passar pelo observer sem disparo,
+    // deixando elementos invisiveis; este reforco revela o que ja entrou na tela.
+    const revealMissed = () => {
+        const limit = window.scrollY + window.innerHeight + 50;
+        fadeElements.forEach((element) => {
+            if (!element.classList.contains('visible') && element.getBoundingClientRect().top + window.scrollY < limit) {
+                element.classList.add('visible');
+                fadeObserver.unobserve(element);
+            }
+        });
+    };
+    window.addEventListener('scroll', revealMissed, { passive: true });
+    window.addEventListener('load', revealMissed);
 } else {
     fadeElements.forEach((element) => element.classList.add('visible'));
 }
