@@ -72,6 +72,7 @@
 
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
+        section[id] { scroll-margin-top: 90px; }
         body {
             font-family: var(--font-body);
             background: var(--bg);
@@ -983,6 +984,158 @@
                 transition-duration: 0.01ms !important;
             }
         }
+
+        /* ============================================================
+           PODCAST
+        ============================================================ */
+        .podcast-section {
+            padding: 5rem 4rem 0;
+            background: var(--bg);
+        }
+        .podcast-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 3rem;
+            align-items: center;
+            background: linear-gradient(135deg, var(--bg-card) 0%, #14110a 100%);
+            border: 1px solid var(--border-gold);
+            border-radius: var(--radius);
+            padding: 2.8rem 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .podcast-inner::before {
+            content: '';
+            position: absolute;
+            top: -60%;
+            right: -10%;
+            width: 55%;
+            height: 170%;
+            background: radial-gradient(ellipse, rgba(201,169,98,0.08), transparent 70%);
+            pointer-events: none;
+        }
+        .podcast-art {
+            position: relative;
+            width: 210px;
+            aspect-ratio: 1;
+            margin: 0 auto;
+            border-radius: 50%;
+            border: 1px solid var(--border-gold);
+            background: radial-gradient(circle at 35% 30%, #1d1a12, var(--bg-alt));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .podcast-art img {
+            width: 60%;
+            filter: drop-shadow(0 10px 24px rgba(0,0,0,0.6));
+        }
+        .podcast-art-badge {
+            position: absolute;
+            bottom: 6px;
+            right: 6px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+            color: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+        }
+        .podcast-art-badge svg { width: 22px; height: 22px; }
+        .podcast-content { position: relative; z-index: 1; }
+        .podcast-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.9;
+            max-width: 640px;
+        }
+        .podcast-player {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            margin-top: 1.6rem;
+            max-width: 640px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 0.8rem 1.6rem 0.8rem 0.8rem;
+        }
+        .podcast-play-btn {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            border: none;
+            cursor: pointer;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+            color: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .podcast-play-btn:hover {
+            transform: scale(1.06);
+            box-shadow: 0 8px 24px rgba(201,169,98,0.35);
+        }
+        .podcast-play-btn svg { width: 20px; height: 20px; fill: currentColor; }
+        .podcast-play-btn .icon-play { margin-left: 2px; }
+        .podcast-play-btn .icon-pause { display: none; }
+        .podcast-player.playing .icon-play { display: none; }
+        .podcast-player.playing .icon-pause { display: block; }
+        .podcast-progress-wrap { flex: 1; min-width: 0; }
+        .podcast-progress {
+            position: relative;
+            height: 6px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .podcast-progress-fill {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            border-radius: 3px;
+        }
+        .podcast-times {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+            font-size: 0.68rem;
+            letter-spacing: 1px;
+            color: var(--text-subtle);
+            font-variant-numeric: tabular-nums;
+        }
+
+        @media (max-width: 1280px) {
+            .podcast-section { padding: 4.5rem 3rem 0; }
+        }
+        @media (max-width: 992px) {
+            .podcast-section { padding: 4rem 2rem 0; }
+            .podcast-inner {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 2.2rem 1.6rem;
+                text-align: center;
+            }
+            .podcast-art { width: 170px; }
+            .podcast-desc, .podcast-player { margin-left: auto; margin-right: auto; }
+            .podcast-desc { text-align: left; }
+        }
+        @media (max-width: 480px) {
+            .podcast-section { padding: 3rem 1rem 0; }
+            .podcast-inner { padding: 1.8rem 1.1rem; }
+            .podcast-play-btn { width: 46px; height: 46px; }
+            .podcast-player { gap: 0.9rem; padding-right: 1.1rem; }
+        }
     </style>
 </head>
 <body>
@@ -1001,6 +1154,7 @@
         <nav>
             <ul class="nav-links">
                 <li><a href="../" class="nav-back-link" title="Voltar ao menu inicial"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg><span>Voltar ao Menu</span></a></li>
+                <li><a href="#podcast">Podcast</a></li>
                 <li><a href="#origem">Origem</a></li>
                 <li><a href="#linha-do-tempo">Linha do Tempo</a></li>
                 <li><a href="#pilares">Pilares</a></li>
@@ -1047,6 +1201,52 @@
                 <span><strong>17</strong> &nbsp;Prêmios Internacionais</span>
                 <span><strong>100+</strong> &nbsp;Países</span>
                 <span><strong>300.000+</strong> &nbsp;Relógios Vendidos</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- =====================================================
+         PODCAST
+         Episódio oficial "Como a CIGA design venceu os suíços":
+         a história completa da marca em áudio (13 min), para
+         ouvir antes de mergulhar no material escrito. Player
+         customizado sobre <audio> nativo.
+    ====================================================== -->
+    <section class="podcast-section" id="podcast">
+        <div class="podcast-inner">
+            <div class="podcast-art" aria-hidden="true">
+                <img src="../imagens/premiacao-trofeu.png" alt="" loading="lazy">
+                <span class="podcast-art-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
+                </span>
+            </div>
+            <div class="podcast-content">
+                <span class="section-eyebrow">Podcast Oficial · 13 min</span>
+                <h2 class="section-title">Como a CIGA design <em>venceu os suíços</em></h2>
+                <p class="podcast-desc">
+                    A história completa da marca em um único episódio: a fundação em Shenzhen,
+                    o design que coloca a mecânica no centro e a noite em Genebra em que o
+                    Blue Planet se tornou o primeiro relógio chinês a vencer o GPHG.
+                    Aperte o play e continue a leitura abaixo.
+                </p>
+                <div class="podcast-player" id="podcastPlayer">
+                    <button class="podcast-play-btn" id="podcastPlayBtn" aria-label="Reproduzir ou pausar o episódio">
+                        <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+                        <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                    </button>
+                    <div class="podcast-progress-wrap">
+                        <div class="podcast-progress" id="podcastProgress" role="slider" tabindex="0" aria-label="Progresso do episódio" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                            <div class="podcast-progress-fill" id="podcastProgressFill"></div>
+                        </div>
+                        <div class="podcast-times">
+                            <span id="podcastCurrent">0:00</span>
+                            <span id="podcastDuration">13:40</span>
+                        </div>
+                    </div>
+                </div>
+                <audio id="podcastAudio" preload="metadata">
+                    <source src="audio/como-a-ciga-design-venceu-os-suicos.m4a" type="audio/mp4">
+                </audio>
             </div>
         </div>
     </section>
@@ -1530,6 +1730,54 @@
                 navHeader.classList.remove('scrolled');
             }
         }, { passive: true });
+
+        // Player do podcast "Como a CIGA design venceu os suíços"
+        const podcastAudio = document.getElementById('podcastAudio');
+        if (podcastAudio) {
+            const player = document.getElementById('podcastPlayer');
+            const playBtn = document.getElementById('podcastPlayBtn');
+            const progress = document.getElementById('podcastProgress');
+            const fill = document.getElementById('podcastProgressFill');
+            const currentEl = document.getElementById('podcastCurrent');
+            const durationEl = document.getElementById('podcastDuration');
+
+            const formatTime = (s) => {
+                if (!isFinite(s) || s < 0) return '0:00';
+                const m = Math.floor(s / 60);
+                const sec = String(Math.floor(s % 60)).padStart(2, '0');
+                return m + ':' + sec;
+            };
+
+            playBtn.addEventListener('click', () => {
+                if (podcastAudio.paused) { podcastAudio.play(); } else { podcastAudio.pause(); }
+            });
+            podcastAudio.addEventListener('play', () => player.classList.add('playing'));
+            podcastAudio.addEventListener('pause', () => player.classList.remove('playing'));
+            podcastAudio.addEventListener('ended', () => {
+                player.classList.remove('playing');
+                podcastAudio.currentTime = 0;
+            });
+            podcastAudio.addEventListener('loadedmetadata', () => {
+                durationEl.textContent = formatTime(podcastAudio.duration);
+            });
+            podcastAudio.addEventListener('timeupdate', () => {
+                const pct = podcastAudio.duration ? (podcastAudio.currentTime / podcastAudio.duration) * 100 : 0;
+                fill.style.width = pct + '%';
+                progress.setAttribute('aria-valuenow', String(Math.round(pct)));
+                currentEl.textContent = formatTime(podcastAudio.currentTime);
+            });
+            progress.addEventListener('click', (e) => {
+                if (!podcastAudio.duration) return;
+                const rect = progress.getBoundingClientRect();
+                const ratio = Math.min(Math.max((e.clientX - rect.left) / rect.width, 0), 1);
+                podcastAudio.currentTime = ratio * podcastAudio.duration;
+            });
+            progress.addEventListener('keydown', (e) => {
+                if (!podcastAudio.duration) return;
+                if (e.key === 'ArrowRight') { podcastAudio.currentTime = Math.min(podcastAudio.currentTime + 10, podcastAudio.duration); e.preventDefault(); }
+                if (e.key === 'ArrowLeft') { podcastAudio.currentTime = Math.max(podcastAudio.currentTime - 10, 0); e.preventDefault(); }
+            });
+        }
     </script>
 </body>
 </html>

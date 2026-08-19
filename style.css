@@ -1287,6 +1287,29 @@ button:focus-visible {
 
 .manual-banner-cta:hover svg { transform: translateX(4px); }
 
+.manual-banner-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+}
+
+.manual-banner-cta--ghost {
+    background: transparent;
+    color: var(--gold);
+    border: 1px solid var(--border-gold);
+}
+
+.manual-banner-cta--ghost::after {
+    background: var(--gold-dim);
+}
+
+.manual-banner-cta--ghost:hover {
+    box-shadow: 0 12px 32px rgba(201,169,98,0.15);
+}
+
+.manual-banner-cta--ghost:hover svg { transform: none; }
+
 .manual-banner-visual {
     position: relative;
     z-index: 2;
