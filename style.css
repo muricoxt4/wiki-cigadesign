@@ -157,6 +157,27 @@ button:focus-visible {
 
 .nav-links a:hover { color: var(--text); }
 .nav-links a:hover::after { width: 100%; }
+.nav-links .nav-sheet-link { color: var(--gold-light); }
+
+@media (max-width: 1180px) and (min-width: 769px) {
+    .nav-header { padding: 1.2rem 2rem; }
+    .nav-header.scrolled { padding: 1rem 2rem; }
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        gap: 0.25rem;
+        padding: 0.5rem 2rem 1rem;
+        background: rgba(5,5,5,0.97);
+        border-bottom: 1px solid var(--border);
+    }
+    .nav-header.nav-open .nav-links { display: flex; }
+    .nav-links a { display: block; padding: 0.85rem 0.5rem; }
+    .nav-toggle { display: inline-flex!important; }
+}
 
 .nav-badge {
     background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
@@ -169,7 +190,7 @@ button:focus-visible {
     border-radius: var(--radius);
 }
 
-/* Botão hambúrguer (visível apenas no mobile) */
+/* Botão hambúrguer (visível em telas compactas) */
 .nav-toggle {
     display: none;
     background: none;

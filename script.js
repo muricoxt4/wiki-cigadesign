@@ -85,7 +85,9 @@
         'everest-70th-anniversary': { collection: 'everest', price: null, keywords: 'everest 70th anniversary tourbillon' },
         'zodiac-dragon': { collection: 'zodiac', price: null, keywords: 'chinese zodiac dragon dragão tourbillon' },
         'zodiac-horse': { collection: 'zodiac', price: null, keywords: 'chinese zodiac horse cavalo tourbillon' },
-        'time-cipher': { collection: 'outros', price: 'R$ 8.990,00', keywords: 'time cipher wandering hour horas errantes' }
+        'time-cipher': { collection: 'outros', price: 'R$ 8.990,00', keywords: 'time cipher wandering hour horas errantes' },
+        'aircraft-carrier': { collection: 'outros', price: 'R$ 3.890,00', keywords: 'aircraft carrier porta aviões z061 black blue legado' },
+        'everest-65th-anniversary': { collection: 'everest', price: 'R$ 16.990,00', keywords: 'everest china 65th anniversary automaton u053 tt01' }
     };
 
     const normalize = (value) => value.toLocaleLowerCase('pt-BR').normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();

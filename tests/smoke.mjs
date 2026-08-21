@@ -123,15 +123,21 @@ try {
         prices: document.querySelectorAll('.watch-card-price').length,
         filters: document.querySelectorAll('.filter-btn').length,
         search: Boolean(document.getElementById('watchSearch')),
+        pricingSheetLink: document.querySelector('.nav-sheet-link')?.href,
         links: [...document.querySelectorAll('.watch-card-btn')].map(link => link.getAttribute('href')),
         images: [...document.querySelectorAll('.watch-card-img')].map(image => image.getAttribute('src'))
     })`);
-    assert.deepEqual({ cards: initial.cards, visible: initial.visible, prices: initial.prices, filters: initial.filters, search: initial.search }, { cards: 26, visible: 26, prices: 26, filters: 6, search: true });
+    assert.deepEqual({ cards: initial.cards, visible: initial.visible, prices: initial.prices, filters: initial.filters, search: initial.search }, { cards: 28, visible: 28, prices: 28, filters: 6, search: true });
+    assert.match(initial.pricingSheetLink, /docs\.google\.com\/spreadsheets\/d\/1ObSm5woDBo3rejyG67yWBrVyWDGTEnr35Djx_tufVYc/);
 
     const aventurCount = await home.client.evaluate(`(() => { document.querySelector('[data-filter="aventur"]').click(); return [...document.querySelectorAll('.watch-card')].filter(card => !card.classList.contains('hidden')).length; })()`);
     assert.equal(aventurCount, 6, 'Filtro Aventur');
     const edgeCount = await home.client.evaluate(`(() => { document.querySelector('[data-filter="edge"]').click(); return [...document.querySelectorAll('.watch-card')].filter(card => !card.classList.contains('hidden')).length; })()`);
     assert.equal(edgeCount, 7, 'Filtro Edge');
+    const everestCount = await home.client.evaluate(`(() => { document.querySelector('[data-filter="everest"]').click(); return [...document.querySelectorAll('.watch-card')].filter(card => !card.classList.contains('hidden')).length; })()`);
+    assert.equal(everestCount, 3, 'Filtro Everest');
+    const legacyCount = await home.client.evaluate(`(() => { document.querySelector('[data-filter="outros"]').click(); return [...document.querySelectorAll('.watch-card')].filter(card => !card.classList.contains('hidden')).length; })()`);
+    assert.equal(legacyCount, 9, 'Filtro Outros / Legado');
     const moonCount = await home.client.evaluate(`(() => { document.querySelector('[data-filter="todos"]').click(); const input = document.getElementById('watchSearch'); input.value = 'moon'; input.dispatchEvent(new Event('input', { bubbles: true })); return [...document.querySelectorAll('.watch-card')].filter(card => !card.classList.contains('hidden')).length; })()`);
     assert.equal(moonCount, 1, 'Busca por modelo');
     const empty = await home.client.evaluate(`(() => { const input = document.getElementById('watchSearch'); input.value = 'modelo inexistente xyz'; input.dispatchEvent(new Event('input', { bubbles: true })); return { visible: [...document.querySelectorAll('.watch-card')].filter(card => !card.classList.contains('hidden')).length, shown: !document.getElementById('catalogEmpty').hidden }; })()`);
@@ -140,18 +146,30 @@ try {
     for (const pathname of [...new Set([...initial.links, ...initial.images])]) await checkResponse(pathname);
     await closePage(home);
 
+    const tabletHome = await openPage('/', { width: 1024, height: 768 });
+    const tabletHomeState = await tabletHome.client.evaluate(`({
+        innerWidth: window.innerWidth,
+        scrollWidth: document.documentElement.scrollWidth,
+        toggleVisible: getComputedStyle(document.querySelector('.nav-toggle')).display !== 'none'
+    })`);
+    assert(tabletHomeState.scrollWidth <= tabletHomeState.innerWidth + 1, `Overflow no cabeçalho tablet: ${JSON.stringify(tabletHomeState)}`);
+    assert.equal(tabletHomeState.toggleVisible, true, 'Menu tablet deve usar o botão hambúrguer');
+    await closePage(tabletHome);
+
     for (const href of initial.links.filter((item) => !['hunter/', 'moon-walker/'].includes(item))) {
         const page = await openPage(`/${href}`);
         const saleState = await page.client.evaluate(`({
             button: document.querySelectorAll('.sale-hero-btn').length,
             form: document.querySelectorAll('#formulario-venda .sale-form').length,
             model: document.querySelector('[name="modelo"]')?.value,
+            pricingSheetLink: document.querySelectorAll('[data-pricing-sheet-link]').length,
             topPrice: document.querySelector('.sale-top-price strong')?.textContent.trim(),
             priceImmediatelyAfterTitle: document.querySelector('.hero-title')?.nextElementSibling?.classList.contains('sale-top-price')
         })`);
         assert.equal(saleState.button, 1, `Botão VENDER ausente em ${href}`);
         assert.equal(saleState.form, 1, `Formulário ausente em ${href}`);
         assert(saleState.model, `Modelo oculto ausente em ${href}`);
+        assert.equal(saleState.pricingSheetLink, 1, `Link da planilha ausente em ${href}`);
         assert(saleState.topPrice, `Preço destacado ausente em ${href}`);
         assert.equal(saleState.priceImmediatelyAfterTitle, true, `Preço fora do topo em ${href}`);
         await closePage(page);
@@ -162,6 +180,7 @@ try {
         sellButtons: document.querySelectorAll('.sale-hero-btn').length,
         forms: document.querySelectorAll('#formulario-venda .sale-form').length,
         fields: [...document.querySelectorAll('#formulario-venda [name]')].map(field => field.name),
+        pricingSheetLink: document.querySelectorAll('[data-pricing-sheet-link]').length,
         price: document.querySelector('.purchase-price-value')?.textContent.trim(),
         blackGoldPrice: [...document.querySelectorAll('.purchase-variant-prices li')].find(item => item.textContent.includes('Black Gold'))?.querySelector('span:last-child')?.textContent.trim(),
         topPrice: document.querySelector('.sale-top-price strong')?.textContent.trim(),
@@ -169,6 +188,7 @@ try {
     })`);
     assert.equal(legacyState.sellButtons, 1);
     assert.equal(legacyState.forms, 1);
+    assert.equal(legacyState.pricingSheetLink, 1);
     assert.equal(legacyState.price, 'R$ 5.990,00');
     assert.equal(legacyState.blackGoldPrice, 'R$ 4.990,00');
     assert.equal(legacyState.topPrice, 'R$ 5.990,00');
@@ -197,6 +217,7 @@ try {
         price: document.querySelector('.catalog-price-summary strong')?.textContent.trim(),
         topPrice: document.querySelector('.sale-top-price strong')?.textContent.trim(),
         priceImmediatelyAfterTitle: document.querySelector('.hero-title')?.nextElementSibling?.classList.contains('sale-top-price'),
+        pricingSheetLink: document.querySelectorAll('[data-pricing-sheet-link]').length,
         sellButtons: document.querySelectorAll('.sale-hero-btn').length,
         forms: document.querySelectorAll('#formulario-venda .sale-form').length
     })`);
@@ -206,6 +227,7 @@ try {
         price: 'R$ 16.990,00',
         topPrice: 'R$ 16.990,00',
         priceImmediatelyAfterTitle: true,
+        pricingSheetLink: 1,
         sellButtons: 1,
         forms: 1
     });

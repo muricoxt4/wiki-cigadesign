@@ -55,8 +55,8 @@
                 </article>
             </section>
             <section class="catalog-official">
-                <p>Informações e imagem conferidas no catálogo global da CIGA design.</p>
-                <a href="${product.officialUrl}" target="_blank" rel="noopener">Ver página oficial do modelo ↗</a>
+                <p>${product.sourceNote || 'Informações e imagem conferidas no catálogo global da CIGA design.'}</p>
+                <a href="${product.officialUrl}" target="_blank" rel="noopener">${product.sourceLinkLabel || 'Ver página oficial do modelo ↗'}</a>
             </section>
         </main>
         <footer class="catalog-footer">

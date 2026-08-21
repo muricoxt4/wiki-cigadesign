@@ -143,6 +143,31 @@
                 { variant: 'Silver · T021-SISI-6B', price: 'R$ 8.990,00' },
                 { variant: 'Carbon · T021-SIGR-6B', price: 'R$ 8.990,00' }
             ]
+        },
+        'aircraft-carrier': {
+            name: 'Aircraft Carrier',
+            collection: 'Outros / Legado',
+            image: 'https://cdn2.jomashop.com/media/catalog/product/cache/b3e31d40bbb1abcc90b26106659d5d3f/c/i/ciga-design-zseries-aircraft-carrier-automatic-grey-dial-mens-watch-z061iptiw5bk_3.jpg?height=800&width=800',
+            officialUrl: 'https://www.jomashop.com/ciga-design-aircraft-carrier-automatic-grey-dial-mens-watch-z061-ipti-w5bk.html',
+            sourceNote: 'Modelo legado conferido pelo SKU da planilha brasileira. Imagem de revendedor internacional do produto.',
+            sourceLinkLabel: 'Ver referência da imagem e do modelo ↗',
+            description: 'Relógio esqueletizado da Série Z inspirado na estrutura de um porta-aviões, com caixa tonneau em camadas e pulseiras temáticas.',
+            highlights: ['Caixa tonneau de aço em construção de duas camadas', 'Movimento automático esqueletizado visível pela frente', 'Pulseira de silicone com grafismos inspirados em aviação'],
+            prices: [
+                { variant: 'Black · Z061-IPTI-W5BK', price: 'R$ 3.890,00' },
+                { variant: 'Blue · Z061-IPTI-W5BU', price: 'R$ 3.890,00' }
+            ]
+        },
+        'everest-65th-anniversary': {
+            name: 'Everest China · 65th Anniversary',
+            collection: 'Everest',
+            image: 'https://cdn.shopify.com/s/files/1/0997/6584/6280/files/ciga-design-mount-everest-chinese-edition-watch-u053-tt01-6b_5b93f846-5768-443e-9f83-44ccb7230c48.webp?v=1783100562',
+            officialUrl: 'https://www.hypewatches.co.uk/products/ciga-design-mount-everest-chinese-edition-watch-u053-tt01-6b',
+            sourceNote: 'Edição conferida pelo SKU da planilha brasileira. Imagem de revendedor autorizado do produto.',
+            sourceLinkLabel: 'Ver referência da imagem e do modelo ↗',
+            description: 'Edição de 45 mm dedicada aos 65 anos da ascensão chinesa do Everest, com mostrador montanhoso e composição mecânica escultórica.',
+            highlights: ['Referência comemorativa U053-TT01-6B', 'Caixa de titânio de 45 mm', 'Mostrador temático com relevo do Everest e emblema de 65 anos'],
+            prices: [{ variant: 'U053-TT01-6B · 45 mm', price: 'R$ 16.990,00' }]
         }
     };
 })();
