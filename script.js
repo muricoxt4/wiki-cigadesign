@@ -54,30 +54,90 @@
 
     const filterBtns = document.querySelectorAll('.filter-btn');
     const watchCards = document.querySelectorAll('.watch-card');
+    const searchInput = document.getElementById('watchSearch');
+    const resultCount = document.getElementById('catalogResultCount');
+    const emptyState = document.getElementById('catalogEmpty');
+    let activeFilter = 'todos';
+
+    const catalogMeta = {
+        'skeleton-edge-exploration': { collection: 'outros', price: 'R$ 3.590,00', keywords: 'exploration skeleton série z' },
+        hunter: { collection: 'edge', price: 'R$ 5.990,00', keywords: 'hunter automatic carbon black silver gold' },
+        edge: { collection: 'edge', price: 'R$ 2.990,00', keywords: 'edge série z titanium dlc' },
+        skeleton: { collection: 'outros', price: 'R$ 1.690,00', keywords: 'skeleton série c full hollow' },
+        'eye-of-horus': { collection: 'outros', price: 'R$ 2.490,00', keywords: 'eye horus série x' },
+        'legend-of-serpent': { collection: 'zodiac', price: 'R$ 14.990,00', keywords: 'legend serpent serpente zodiac' },
+        cigaBluePlanet: { collection: 'aventur', price: 'R$ 11.990,00', keywords: 'blue planet ii aventur gphg' },
+        'blue-planet-ii-gilded-age': { collection: 'aventur', price: 'R$ 19.990,00', keywords: 'blue planet gilded age gold aventur' },
+        magician: { collection: 'outros', price: 'R$ 5.990,00', keywords: 'magician série m fancy shadow' },
+        'eastern-jade': { collection: 'outros', price: 'R$ 3.990,00', keywords: 'eastern jade série y' },
+        machina: { collection: 'outros', price: 'R$ 3.990,00', keywords: 'machina x ki série x purple white' },
+        gorilla: { collection: 'outros', price: 'R$ 3.790,00', keywords: 'gorilla série x' },
+        'ice-age': { collection: 'aventur', price: 'R$ 14.990,00', keywords: 'ice age glacier blue aventur feminino' },
+        'moon-walker': { collection: 'aventur', price: 'R$ 16.990,00', keywords: 'moon walker lua aventur' },
+        'blue-planet-black-star': { collection: 'aventur', price: 'R$ 19.800,00', keywords: 'black star label noir aventur' },
+        'blue-planet-atlantic': { collection: 'aventur', price: 'R$ 11.990,00', keywords: 'atlantic ocean blue planet aventur' },
+        'hunter-tourbillon': { collection: 'edge', price: 'R$ 19.990,00', keywords: 'hunter tourbillon edge' },
+        'hunter-vintage': { collection: 'edge', price: null, keywords: 'hunter vintage rose sand brown gold edge' },
+        'hunter-titanium': { collection: 'edge', price: 'R$ 8.990,00', keywords: 'hunter titanium titânio edge' },
+        vector: { collection: 'edge', price: 'R$ 6.990,00', keywords: 'vector racing carbon titanium steel edge' },
+        falcon: { collection: 'edge', price: 'R$ 4.990,00', keywords: 'falcon round skeleton edge' },
+        'everest-summit': { collection: 'everest', price: 'R$ 26.990,00', keywords: 'everest summit central tourbillon' },
+        'everest-70th-anniversary': { collection: 'everest', price: null, keywords: 'everest 70th anniversary tourbillon' },
+        'zodiac-dragon': { collection: 'zodiac', price: null, keywords: 'chinese zodiac dragon dragão tourbillon' },
+        'zodiac-horse': { collection: 'zodiac', price: null, keywords: 'chinese zodiac horse cavalo tourbillon' },
+        'time-cipher': { collection: 'outros', price: 'R$ 8.990,00', keywords: 'time cipher wandering hour horas errantes' }
+    };
+
+    const normalize = (value) => value.toLocaleLowerCase('pt-BR').normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+
+    watchCards.forEach((card) => {
+        const href = card.querySelector('.watch-card-btn')?.getAttribute('href') || '';
+        const slug = href.replace(/^\.\//, '').replace(/\/$/, '');
+        const meta = catalogMeta[slug] || {};
+        card.dataset.collection = meta.collection || card.dataset.collection || 'outros';
+        card.dataset.search = normalize(`${card.textContent} ${meta.keywords || ''} ${card.dataset.collection}`);
+
+        if (!card.querySelector('.watch-card-price')) {
+            const price = document.createElement('p');
+            price.className = `watch-card-price${meta.price ? '' : ' watch-card-price--consult'}`;
+            price.textContent = meta.price ? `A partir de ${meta.price}` : 'Preço sob consulta';
+            card.querySelector('.watch-card-btn')?.before(price);
+        }
+    });
+
+    const applyFilters = () => {
+        const query = normalize(searchInput ? searchInput.value : '');
+        let visibleCount = 0;
+
+        watchCards.forEach((card) => {
+            const matchesCollection = activeFilter === 'todos' || card.dataset.collection === activeFilter;
+            const matchesSearch = !query || card.dataset.search.includes(query);
+            const isMatch = matchesCollection && matchesSearch;
+            card.classList.toggle('hidden', !isMatch);
+            card.style.gridColumn = '';
+            if (isMatch) visibleCount += 1;
+
+            if (isMatch && !prefersReducedMotion) {
+                card.style.animation = 'cardReveal 0.4s ease both';
+            } else {
+                card.style.animation = '';
+            }
+        });
+
+        if (resultCount) resultCount.textContent = String(visibleCount);
+        if (emptyState) emptyState.hidden = visibleCount !== 0;
+    };
 
     filterBtns.forEach((btn) => {
         btn.addEventListener('click', () => {
             filterBtns.forEach((button) => button.classList.remove('active'));
             btn.classList.add('active');
-
-            const filter = btn.dataset.filter;
-
-            watchCards.forEach((card) => {
-                const isMatch = filter === 'todos' || card.dataset.gender === filter;
-                card.classList.toggle('hidden', !isMatch);
-
-                if (isMatch && !prefersReducedMotion) {
-                    card.style.animation = 'cardReveal 0.4s ease both';
-                } else {
-                    card.style.animation = '';
-                }
-            });
-
-            document.querySelectorAll('.watch-card--featured').forEach((card) => {
-                card.style.gridColumn = filter === 'feminino' && !card.classList.contains('hidden') ? '1' : '';
-            });
+            activeFilter = btn.dataset.filter;
+            applyFilters();
         });
     });
+    searchInput?.addEventListener('input', applyFilters);
+    applyFilters();
 
     const revealStyle = document.createElement('style');
     revealStyle.textContent = `
@@ -163,7 +223,7 @@
                     requestAnimationFrame(tick);
                 };
 
-                if (text === '13') run(0, 13, '', 0);
+                if (text === '26') run(0, 26, '', 0);
                 if (text === '1') run(0, 1, '', 0);
                 if (text === '23.5K+') run(0, 23.5, 'K+', 1);
 

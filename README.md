@@ -13,7 +13,7 @@ A home funciona como vitrine e índice de acesso. Cada card representa um modelo
 A home organiza a experiência em cinco blocos:
 
 - `Hero`: apresenta a marca, o contexto do presskit e os números de destaque.
-- `Coleção`: exibe os 13 modelos em grid responsivo, com badge "+N VERSÕES" nos cards que possuem variantes.
+- `Coleção`: exibe 26 modelos em grid responsivo, com preço Brasil e badge "+N VERSÕES" nos cards que possuem variantes.
 - `Manual`: banner de acesso rápido ao Manual do Usuário em português.
 - `Sobre a CIGA`: contexto institucional da marca e do prêmio GPHG 2021.
 - `Contato`: canais oficiais da equipe (WhatsApp, e-mail, Instagram).
@@ -21,11 +21,11 @@ A home organiza a experiência em cinco blocos:
 
 ### Filtro da coleção
 
-Filtro front-end por gênero (`Todos`, `Masculino`, `Feminino`) usando o atributo `data-gender` de cada card.
+Busca por nome/coleção e filtros combináveis para as coleções oficiais atuais (`Aventur`, `Edge`, `Everest`, `Zodiac`). `Outros / Legado` preserva o Time Cipher e os sete modelos locais fora das quatro coleções principais.
 
-### Páginas de presskit
+### Páginas de produto e presskit
 
-Cada modelo tem sua própria pasta com `index.html`, `style.css`, `script.js` e `imagens/`. Estrutura padrão:
+Cada modelo tem sua própria rota. Os 13 presskits originais mantêm HTML/CSS/JS e galeria próprios; os 13 modelos adicionados usam o template compartilhado em `shared/`. A estrutura inclui:
 
 1. `Hero` do produto
 2. `O Produto`
@@ -33,9 +33,11 @@ Cada modelo tem sua própria pasta com `index.html`, `style.css`, `script.js` e 
 4. `Diretrizes` de comunicação
 5. `Direcionamentos` estratégicos para creators
 6. `Galeria` com lightbox clicável
-7. `Variantes` (modelos com mais de uma versão)
-8. `Comprar no Site Oficial`
-9. `Voltar ao Menu`
+7. `Variantes` (quando disponíveis)
+8. Preço Brasil
+9. Link oficial do modelo
+10. `VENDER` e formulário de registro comercial
+11. `Voltar ao Menu`
 
 ### Modelos com múltiplas variantes
 
@@ -62,6 +64,8 @@ Cada modelo tem sua própria pasta com `index.html`, `style.css`, `script.js` e 
 - Animações `fade-in`
 - **Lightbox**: clique em qualquer imagem da galeria para ampliar (fecha com `Esc` ou clique fora)
 - **Botão "Voltar ao Menu"** no topo da nav e no rodapé
+- **Botão "VENDER"** no hero, com rolagem para o formulário no rodapé
+- **Pop-up de sucesso/erro** após resposta do Apps Script
 
 ### cigaBluePlanet
 
@@ -82,6 +86,8 @@ wiki.cigaDesign/
 ├── imagens/                # Assets compartilhados (logo, hero, troféu)
 ├── manualMarca/            # Fontes Helvetica Neue LT Pro (4 pesos)
 ├── manual-usuario/         # Manual técnico do usuário
+├── shared/                 # Catálogo, páginas novas e formulário compartilhado
+├── google-apps-script/     # Script e guia de integração com Google Sheets
 ├── cigaBluePlanet/         # Blue Planet II (vencedor GPHG 2021)
 ├── blue-planet-ii-gilded-age/
 ├── skeleton/
@@ -94,7 +100,8 @@ wiki.cigaDesign/
 ├── eastern-jade/
 ├── machina/
 ├── gorilla/
-└── ice-age/
+├── ice-age/
+└── ...                     # 13 novas rotas do catálogo oficial atual
 ```
 
 ## Responsividade
@@ -116,8 +123,12 @@ Breakpoints implementados (do maior pro menor):
 Site estático. Basta abrir `index.html` no navegador, ou rodar um servidor local:
 
 ```powershell
-python -m http.server 8000
+npx --yes http-server . -p 8000
 ```
+
+## Registro de vendas
+
+Todas as páginas de relógio usam `shared/sale-form.js`. Antes de testar um envio real, implante o conteúdo de `google-apps-script/Code.gs` e cole a URL `/exec` em `shared/sale-form-config.js`. O guia completo está em `google-apps-script/README.md`.
 
 ## Deploy
 

@@ -28,3 +28,6 @@ node_modules/
 
 # Artefatos de teste automatizado
 .playwright-mcp/
+
+# Originais oficiais em alta resolução; o site usa os JPEGs otimizados
+**/imagens/produto-oficial.png

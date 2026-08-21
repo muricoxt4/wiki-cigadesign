@@ -1,0 +1,44 @@
+@font-face { font-family: 'Helvetica Neue'; src: url('../manualMarca/fonts/HelveticaNeueLTPro-Lt.otf') format('opentype'); font-weight: 300; }
+@font-face { font-family: 'Helvetica Neue'; src: url('../manualMarca/fonts/HelveticaNeueLTPro-Md.otf') format('opentype'); font-weight: 500; }
+
+:root { --bg: #050505; --panel: #0d0d0f; --text: #fff; --muted: #a6a6ab; --blue: #4a9be8; --gold: #c9a962; --border: rgba(255,255,255,.12); }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { min-height: 100vh; background: var(--bg); color: var(--text); font-family: 'Helvetica Neue', Arial, sans-serif; }
+a { color: inherit; text-decoration: none; }
+.catalog-nav { height: 84px; padding: 0 clamp(1.2rem, 4vw, 4rem); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); background: rgba(5,5,5,.94); }
+.catalog-logo img { display: block; height: 34px; width: auto; }
+.catalog-back { color: var(--muted); font-size: .75rem; letter-spacing: 1.5px; text-transform: uppercase; }
+.catalog-back:hover { color: var(--blue); }
+.catalog-product-hero { min-height: calc(100vh - 84px); display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(360px, .92fr); align-items: center; }
+.catalog-product-image { height: 100%; min-height: 680px; overflow: hidden; background: #000; }
+.catalog-product-image img { width: 100%; height: 100%; object-fit: cover; }
+.catalog-product-copy { padding: clamp(3rem, 7vw, 7rem); }
+.catalog-eyebrow { display: block; color: var(--gold); font-size: .68rem; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 1.2rem; }
+.hero-title { font-size: clamp(2.5rem, 5.5vw, 5rem); font-weight: 300; line-height: 1.04; margin-bottom: 1.6rem; }
+.hero-subtitle { color: var(--muted); font-size: clamp(.95rem, 1.4vw, 1.12rem); line-height: 1.85; max-width: 620px; }
+.catalog-price-summary { margin: 2rem 0; padding: 1.2rem 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: .35rem; }
+.catalog-price-summary span { color: var(--muted); font-size: .68rem; letter-spacing: 2px; text-transform: uppercase; }
+.catalog-price-summary strong { font-size: 1.55rem; font-weight: 500; color: var(--gold); }
+.catalog-details { max-width: 1280px; margin: 0 auto; padding: 7rem 4rem; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+.catalog-panel { background: var(--panel); border: 1px solid var(--border); padding: clamp(2rem, 4vw, 3.5rem); }
+.catalog-panel h2 { font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 300; margin-bottom: 2rem; }
+.catalog-highlights { list-style: none; display: grid; gap: 1rem; }
+.catalog-highlights li { color: var(--muted); line-height: 1.65; padding-left: 1.4rem; position: relative; }
+.catalog-highlights li::before { content: ''; width: 6px; height: 6px; background: var(--blue); border-radius: 50%; position: absolute; left: 0; top: .6em; }
+.catalog-price-list { list-style: none; display: grid; }
+.catalog-price-list li { display: flex; gap: 1rem; justify-content: space-between; padding: 1rem 0; border-bottom: 1px solid var(--border); color: var(--muted); }
+.catalog-price-list strong { color: var(--text); white-space: nowrap; font-weight: 500; }
+.catalog-price-note { margin-top: 1.5rem; color: #77777d; font-size: .76rem; line-height: 1.6; }
+.catalog-official { margin: 0 auto 7rem; padding: 2rem 4rem; max-width: 1280px; display: flex; justify-content: space-between; gap: 2rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.catalog-official a { color: var(--blue); }
+.catalog-footer { padding: 2rem 4rem; display: flex; justify-content: space-between; gap: 1rem; border-top: 1px solid var(--border); color: #77777d; font-size: .72rem; }
+.catalog-error { padding: 4rem; }
+@media (max-width: 850px) {
+    .catalog-product-hero { grid-template-columns: 1fr; }
+    .catalog-product-image { min-height: 0; aspect-ratio: 1; }
+    .catalog-product-copy { padding: 3rem 1.4rem 4rem; }
+    .catalog-details { grid-template-columns: 1fr; padding: 4rem 1.2rem; }
+    .catalog-official { margin: 0 1.2rem 4rem; padding: 2rem 0; flex-direction: column; }
+    .catalog-footer { padding: 2rem 1.2rem; flex-direction: column; }
+}
