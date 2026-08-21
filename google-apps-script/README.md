@@ -29,6 +29,16 @@ window.CIGA_SALES_ENDPOINT = 'https://script.google.com/macros/s/SEU_DEPLOYMENT_
 
 Depois, rode o site por um servidor local, abra uma página de relógio e faça um envio de teste. Confira a nova linha na aba `Vendas` e teste também um CPF/CNPJ inválido para confirmar o pop-up de erro.
 
+## 4. Importar a tabela de preços
+
+Depois de implantar a versão mais recente do Apps Script, execute na raiz do projeto:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\import-pricing.ps1
+```
+
+O script lê localmente `CIGA PRICCING.xlsx`, confirma o hash da versão auditada e envia as colunas A a J para a aba `Tabela de Preços`. A aba `Vendas` não é alterada. Os dados da planilha não ficam armazenados no repositório público.
+
 ## Atualizações futuras
 
 Ao editar `Code.gs`, crie uma **nova versão da implantação** em **Gerenciar implantações**. Em geral a URL `/exec` permanece a mesma. Não coloque senhas ou chaves secretas no JavaScript do site.

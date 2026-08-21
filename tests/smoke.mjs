@@ -163,12 +163,14 @@ try {
         forms: document.querySelectorAll('#formulario-venda .sale-form').length,
         fields: [...document.querySelectorAll('#formulario-venda [name]')].map(field => field.name),
         price: document.querySelector('.purchase-price-value')?.textContent.trim(),
+        blackGoldPrice: [...document.querySelectorAll('.purchase-variant-prices li')].find(item => item.textContent.includes('Black Gold'))?.querySelector('span:last-child')?.textContent.trim(),
         topPrice: document.querySelector('.sale-top-price strong')?.textContent.trim(),
         priceImmediatelyAfterTitle: document.querySelector('.hero-title')?.nextElementSibling?.classList.contains('sale-top-price')
     })`);
     assert.equal(legacyState.sellButtons, 1);
     assert.equal(legacyState.forms, 1);
     assert.equal(legacyState.price, 'R$ 5.990,00');
+    assert.equal(legacyState.blackGoldPrice, 'R$ 4.990,00');
     assert.equal(legacyState.topPrice, 'R$ 5.990,00');
     assert.equal(legacyState.priceImmediatelyAfterTitle, true);
     for (const field of ['nome', 'email', 'telefone', 'documento', 'sku', 'codigoVenda']) assert(legacyState.fields.includes(field), `Campo ausente: ${field}`);

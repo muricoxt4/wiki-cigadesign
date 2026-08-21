@@ -61,7 +61,7 @@
 
     const catalogMeta = {
         'skeleton-edge-exploration': { collection: 'outros', price: 'R$ 3.590,00', keywords: 'exploration skeleton série z' },
-        hunter: { collection: 'edge', price: 'R$ 5.990,00', keywords: 'hunter automatic carbon black silver gold' },
+        hunter: { collection: 'edge', price: 'R$ 5.990,00', keywords: 'hunter automatic carbon black silver black gold' },
         edge: { collection: 'edge', price: 'R$ 2.990,00', keywords: 'edge série z titanium dlc' },
         skeleton: { collection: 'outros', price: 'R$ 1.690,00', keywords: 'skeleton série c full hollow' },
         'eye-of-horus': { collection: 'outros', price: 'R$ 2.490,00', keywords: 'eye horus série x' },

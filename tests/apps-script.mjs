@@ -1,33 +1,62 @@
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import vm from 'node:vm';
 
+const pricingHeaders = ['Codigo', 'Descrição', 'IPI', 'Foto', 'SKU', 'NCM', 'EAN', 'CIGA WEB', 'BRAZIL WEB', 'BRAZIL WHOSALE'];
+const pricingData = [
+    pricingHeaders,
+    ...Array.from({ length: 60 }, (_, index) => [null, `Produto ${index + 1}`, 0.2, null, `SKU-${index + 1}`, '9102.21.00', null, 100, 1000, 660])
+];
+const pricingJson = JSON.stringify(pricingData);
+const pricingHash = createHash('sha256').update(pricingJson, 'utf8').digest('hex');
+
 let source = await readFile(new URL('../google-apps-script/Code.gs', import.meta.url), 'utf8');
 source = source.replace(/SPREADSHEET_ID:\s*'[^']*'/, "SPREADSHEET_ID: 'PLANILHA_TESTE'");
+source = source.replace(/PRICING_IMPORT_SHA256:\s*'[^']*'/, `PRICING_IMPORT_SHA256: '${pricingHash}'`);
 
-const rows = [];
-let lastRow = 0;
-const sheet = {
-    getLastRow: () => lastRow,
-    setFrozenRows: () => {},
-    getRange: (row, column) => ({
-        setValues: (values) => {
-            rows[row] = values[0];
-            lastRow = Math.max(lastRow, row);
-            return sheet;
+function createSheetMock() {
+    const sheet = {
+        rows: [],
+        getLastRow: () => {
+            for (let index = sheet.rows.length - 1; index >= 1; index -= 1) if (sheet.rows[index]?.some(value => value !== '')) return index;
+            return 0;
         },
-        setFontWeight: () => sheet,
-        setNumberFormat: () => sheet
-    })
-};
+        clearContents: () => { sheet.rows = []; return sheet; },
+        setFrozenRows: () => sheet,
+        autoResizeColumns: () => sheet,
+        setColumnWidth: () => sheet,
+        getRange: (row, column) => ({
+            setValues: (values) => {
+                values.forEach((valueRow, rowOffset) => {
+                    const targetRow = row + rowOffset;
+                    if (!sheet.rows[targetRow]) sheet.rows[targetRow] = [];
+                    valueRow.forEach((value, columnOffset) => { sheet.rows[targetRow][column - 1 + columnOffset] = value; });
+                });
+                return sheet;
+            },
+            setFontWeight: () => sheet,
+            setNumberFormat: () => sheet
+        })
+    };
+    return sheet;
+}
+
+const salesSheet = createSheetMock();
+const pricingSheet = createSheetMock();
 const spreadsheet = {
-    getSheetByName: () => sheet,
-    insertSheet: () => sheet
+    getSheetByName: (name) => name === 'Vendas' ? salesSheet : pricingSheet,
+    insertSheet: (name) => name === 'Vendas' ? salesSheet : pricingSheet
 };
 const context = vm.createContext({
     console: { log: console.log, error: () => {} },
     SpreadsheetApp: { openById: (id) => { assert.equal(id, 'PLANILHA_TESTE'); return spreadsheet; } },
     LockService: { getScriptLock: () => ({ tryLock: () => true, releaseLock: () => {} }) },
+    Utilities: {
+        DigestAlgorithm: { SHA_256: 'sha256' },
+        Charset: { UTF_8: 'utf8' },
+        computeDigest: (_algorithm, text) => [...createHash('sha256').update(text, 'utf8').digest()]
+    },
     ContentService: {
         MimeType: { JSON: 'json' },
         createTextOutput: (text) => ({ text, setMimeType() { return this; } })
@@ -61,15 +90,27 @@ context.testEvent = {
 const success = vm.runInContext('doPost(testEvent)', context);
 assert.match(success.html, /"ok":true/);
 assert.match(success.html, /"token":"token-teste"/);
-assert.equal(rows[2][1], 'Moon Walker Edition');
-assert.equal(rows[2][5], '52998224725');
-assert.equal(rows[1][8], 'SKU');
-assert.equal(rows[2][8], 'SKU-TESTE-001');
+assert.equal(salesSheet.rows[2][1], 'Moon Walker Edition');
+assert.equal(salesSheet.rows[2][5], '52998224725');
+assert.equal(salesSheet.rows[1][8], 'SKU');
+assert.equal(salesSheet.rows[2][8], 'SKU-TESTE-001');
 
 context.testEvent.parameter.documento = '11111111111';
 const failure = vm.runInContext('doPost(testEvent)', context);
 assert.match(failure.html, /"ok":false/);
 assert.match(failure.html, /CPF ou CNPJ válido/);
-assert.equal(lastRow, 2, 'Requisição inválida não deve criar nova linha');
+assert.equal(salesSheet.getLastRow(), 2, 'Requisição inválida não deve criar nova linha');
 
-console.log('Apps Script aprovado: validação, gravação e respostas success/error.');
+context.pricingEvent = { parameter: { action: 'importPricing', callbackToken: 'token-precos', pricingData: pricingJson } };
+const pricingSuccess = vm.runInContext('doPost(pricingEvent)', context);
+assert.match(pricingSuccess.html, /"ok":true/);
+assert.match(pricingSuccess.html, /"rows":60/);
+assert.equal(pricingSheet.rows[1][8], 'BRAZIL WEB');
+assert.equal(pricingSheet.rows[2][4], 'SKU-1');
+
+context.pricingEvent.parameter.pricingData = pricingJson.replace('SKU-1', 'SKU-ALTERADO');
+const pricingFailure = vm.runInContext('doPost(pricingEvent)', context);
+assert.match(pricingFailure.html, /"ok":false/);
+assert.match(pricingFailure.html, /não foi autorizada/);
+
+console.log('Apps Script aprovado: vendas, validações e importação protegida da tabela de preços.');
