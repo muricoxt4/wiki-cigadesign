@@ -163,6 +163,7 @@ try {
 
     const popupState = await legacy.client.evaluate(`(() => {
         const form = document.querySelector('.sale-form');
+        window.CIGA_SALES_ENDPOINT = '';
         form.elements.nome.value = 'Teste Local';
         form.elements.email.value = 'teste@example.com';
         form.elements.telefone.value = '45999999999';
