@@ -46,7 +46,8 @@
                 <label class="sale-field"><span>E-mail</span><input type="email" name="email" autocomplete="email" maxlength="160" required></label>
                 <label class="sale-field"><span>Telefone</span><input type="tel" name="telefone" autocomplete="tel" inputmode="tel" maxlength="20" placeholder="(00) 00000-0000" required></label>
                 <label class="sale-field"><span>CPF ou CNPJ</span><input type="text" name="documento" inputmode="numeric" maxlength="18" placeholder="Somente números" required></label>
-                <label class="sale-field sale-field--wide"><span>Código de venda</span><input type="text" name="codigoVenda" maxlength="80" required></label>
+                <label class="sale-field"><span>SKU</span><input type="text" name="sku" autocomplete="off" maxlength="100" required></label>
+                <label class="sale-field"><span>Código de venda</span><input type="text" name="codigoVenda" maxlength="80" required></label>
                 <p class="sale-form-error" role="alert" aria-live="polite"></p>
                 <button type="submit" class="sale-submit"><span>Enviar venda</span></button>
             </form>

@@ -159,7 +159,7 @@ try {
     assert.equal(legacyState.sellButtons, 1);
     assert.equal(legacyState.forms, 1);
     assert.equal(legacyState.price, 'R$ 5.990,00');
-    for (const field of ['nome', 'email', 'telefone', 'documento', 'codigoVenda']) assert(legacyState.fields.includes(field), `Campo ausente: ${field}`);
+    for (const field of ['nome', 'email', 'telefone', 'documento', 'sku', 'codigoVenda']) assert(legacyState.fields.includes(field), `Campo ausente: ${field}`);
 
     const popupState = await legacy.client.evaluate(`(() => {
         const form = document.querySelector('.sale-form');
@@ -168,6 +168,7 @@ try {
         form.elements.email.value = 'teste@example.com';
         form.elements.telefone.value = '45999999999';
         form.elements.documento.value = '52998224725';
+        form.elements.sku.value = 'SKU-TESTE-LOCAL';
         form.elements.codigoVenda.value = 'TESTE-LOCAL';
         form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
         return { hidden: document.querySelector('.sale-popup').hidden, title: document.getElementById('salePopupTitle').textContent };

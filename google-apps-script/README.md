@@ -4,10 +4,9 @@ O formulário envia os dados por um frame temporário para evitar limitações d
 
 ## 1. Preparar a planilha
 
-1. Crie uma planilha no Google Sheets.
-2. Na URL `https://docs.google.com/spreadsheets/d/ID_DA_PLANILHA/edit`, copie somente `ID_DA_PLANILHA`.
-3. Abra `Code.gs` e substitua `COLE_AQUI_O_ID_DA_PLANILHA` pelo ID copiado.
-4. Se quiser outro nome de aba, altere `SHEET_NAME`. A aba e os cabeçalhos serão criados automaticamente no primeiro envio.
+1. A planilha de vendas já está configurada no `SPREADSHEET_ID` de `Code.gs`.
+2. Se quiser apontar para outra planilha, copie da URL apenas o trecho entre `/d/` e `/edit` e substitua esse valor.
+3. Se quiser outro nome de aba, altere `SHEET_NAME`. A aba e os cabeçalhos serão criados automaticamente no primeiro envio.
 
 ## 2. Criar e implantar o Apps Script
 

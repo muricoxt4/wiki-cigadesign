@@ -1,18 +1,19 @@
 /**
  * CIGA design Brasil — receptor do formulário de vendas.
  *
- * 1. Crie uma planilha no Google Sheets e copie o ID da URL.
- * 2. Cole o ID abaixo e ajuste SHEET_NAME se desejar.
+ * 1. A planilha Google Sheets já está configurada em SPREADSHEET_ID.
+ * 2. Ajuste SHEET_NAME se desejar usar outro nome de aba.
  * 3. Implante como app da Web seguindo o README da pasta google-apps-script.
  */
 const CONFIG = Object.freeze({
-  SPREADSHEET_ID: 'COLE_AQUI_O_ID_DA_PLANILHA',
+  SPREADSHEET_ID: '1ObSm5woDBo3rejyG67yWBrVyWDGTEnr35Djx_tufVYc',
   SHEET_NAME: 'Vendas',
   MAX_LENGTHS: Object.freeze({
     nome: 120,
     email: 160,
     telefone: 13,
     documento: 14,
+    sku: 100,
     codigoVenda: 80,
     modelo: 160,
     pagina: 500
@@ -27,7 +28,8 @@ const HEADERS = Object.freeze([
   'Telefone',
   'CPF/CNPJ',
   'Código de venda',
-  'Página de origem'
+  'Página de origem',
+  'SKU'
 ]);
 
 function doGet() {
@@ -87,6 +89,7 @@ function validateSale_(payload) {
     email: required_(payload.email, 'E-mail', CONFIG.MAX_LENGTHS.email).toLowerCase(),
     telefone: digits_(payload.telefone).slice(0, CONFIG.MAX_LENGTHS.telefone),
     documento: digits_(payload.documento).slice(0, CONFIG.MAX_LENGTHS.documento),
+    sku: required_(payload.sku, 'SKU', CONFIG.MAX_LENGTHS.sku),
     codigoVenda: required_(payload.codigoVenda, 'Código de venda', CONFIG.MAX_LENGTHS.codigoVenda),
     pagina: clean_(payload.pagina, CONFIG.MAX_LENGTHS.pagina)
   };
@@ -119,14 +122,15 @@ function saveSale_(sale) {
     let sheet = spreadsheet.getSheetByName(CONFIG.SHEET_NAME);
     if (!sheet) sheet = spreadsheet.insertSheet(CONFIG.SHEET_NAME);
 
-    if (sheet.getLastRow() === 0) {
-      sheet.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]);
-      sheet.setFrozenRows(1);
-      sheet.getRange(1, 1, 1, HEADERS.length).setFontWeight('bold');
-    }
+    const headerRange = sheet.getRange(1, 1, 1, HEADERS.length);
+    headerRange.setValues([HEADERS]);
+    headerRange.setFontWeight('bold');
+    sheet.setFrozenRows(1);
 
     const nextRow = sheet.getLastRow() + 1;
     sheet.getRange(nextRow, 5, 1, 2).setNumberFormat('@');
+    sheet.getRange(nextRow, 7, 1, 1).setNumberFormat('@');
+    sheet.getRange(nextRow, 9, 1, 1).setNumberFormat('@');
     sheet.getRange(nextRow, 1, 1, HEADERS.length).setValues([[
       new Date(),
       safeCell_(sale.modelo),
@@ -135,7 +139,8 @@ function saveSale_(sale) {
       safeCell_(sale.telefone),
       safeCell_(sale.documento),
       safeCell_(sale.codigoVenda),
-      safeCell_(sale.pagina)
+      safeCell_(sale.pagina),
+      safeCell_(sale.sku)
     ]]);
   } finally {
     lock.releaseLock();

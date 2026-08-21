@@ -3,7 +3,7 @@ import { readFile } from 'node:fs/promises';
 import vm from 'node:vm';
 
 let source = await readFile(new URL('../google-apps-script/Code.gs', import.meta.url), 'utf8');
-source = source.replace('COLE_AQUI_O_ID_DA_PLANILHA', 'PLANILHA_TESTE');
+source = source.replace(/SPREADSHEET_ID:\s*'[^']*'/, "SPREADSHEET_ID: 'PLANILHA_TESTE'");
 
 const rows = [];
 let lastRow = 0;
@@ -53,6 +53,7 @@ context.testEvent = {
         email: 'teste@example.com',
         telefone: '45999999999',
         documento: '52998224725',
+        sku: 'SKU-TESTE-001',
         codigoVenda: 'TESTE-001',
         pagina: 'http://127.0.0.1:4173/moon-walker/'
     }
@@ -62,6 +63,8 @@ assert.match(success.html, /"ok":true/);
 assert.match(success.html, /"token":"token-teste"/);
 assert.equal(rows[2][1], 'Moon Walker Edition');
 assert.equal(rows[2][5], '52998224725');
+assert.equal(rows[1][8], 'SKU');
+assert.equal(rows[2][8], 'SKU-TESTE-001');
 
 context.testEvent.parameter.documento = '11111111111';
 const failure = vm.runInContext('doPost(testEvent)', context);
