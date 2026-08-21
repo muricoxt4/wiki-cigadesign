@@ -130,6 +130,14 @@ npx --yes http-server . -p 8000
 
 Todas as páginas de relógio usam `shared/sale-form.js`. Antes de testar um envio real, implante o conteúdo de `google-apps-script/Code.gs` e cole a URL `/exec` em `shared/sale-form-config.js`. O guia completo está em `google-apps-script/README.md`.
 
+## Tabela de preços em HTML
+
+A rota `precos/` é gerada a partir de `CIGA PRICCING.xlsx`, aba `Distribuidor`, usando os valores da coluna I `BRAZIL WEB` e as fotos incorporadas. Para atualizar a página depois de alterar a planilha:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\build-pricing-page.ps1
+```
+
 ## Deploy
 
 Hospedado via GitHub Pages com domínio próprio (`CNAME` configurado).

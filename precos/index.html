@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tabela de preços CIGA design Brasil com fotos, SKUs e valores da coluna BRAZIL WEB.">
+    <title>Tabela de Preços | CIGA design Brasil</title>
+    <link rel="icon" href="../imagens/favicon.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="pricing-nav">
+        <a class="pricing-logo" href="../" aria-label="Página inicial"><img src="../imagens/ciga-logo.png" alt="CIGA design"></a>
+        <button class="pricing-menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="pricingMenu">
+            <span></span><span></span><span></span>
+        </button>
+        <nav class="pricing-menu" id="pricingMenu" aria-label="Menu principal" hidden>
+            <a href="../">Início</a>
+            <a href="../#colecao">Todos os modelos</a>
+            <a href="./" aria-current="page">Tabela de preços</a>
+            <a href="../#contato">Contato</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="pricing-hero">
+            <span class="pricing-eyebrow">CIGA design Brasil</span>
+            <h1>Tabela de preços</h1>
+            <p>Valores extraídos da coluna I <strong>BRAZIL WEB</strong> da planilha CIGA PRICCING.</p>
+            <div class="pricing-source"><span>60 itens</span><span>Fotos da planilha</span><span>Preços em reais</span></div>
+        </section>
+
+        <section class="pricing-catalog" aria-labelledby="pricingCatalogTitle">
+            <div class="pricing-catalog-heading">
+                <div>
+                    <span class="pricing-eyebrow">Consulta rápida</span>
+                    <h2 id="pricingCatalogTitle">Produtos e variantes</h2>
+                </div>
+                <p id="pricingCount" aria-live="polite"></p>
+            </div>
+
+            <div class="pricing-controls">
+                <label class="pricing-search">
+                    <span>Pesquisar</span>
+                    <input id="pricingSearch" type="search" placeholder="Modelo, SKU ou código" autocomplete="off">
+                </label>
+                <label>
+                    <span>Coleção</span>
+                    <select id="pricingCollection">
+                        <option value="todos">Todas</option>
+                        <option value="aventur">Aventur</option>
+                        <option value="edge">Edge</option>
+                        <option value="everest">Everest</option>
+                        <option value="zodiac">Zodiac</option>
+                        <option value="outros-legado">Outros / Legado</option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="pricing-grid" id="pricingGrid"></div>
+            <p class="pricing-empty" id="pricingEmpty" hidden>Nenhum item encontrado com esses filtros.</p>
+            <noscript>Ative o JavaScript para consultar a tabela de preços.</noscript>
+        </section>
+    </main>
+
+    <footer class="pricing-footer">
+        <span>© 2026 CIGA design Brasil · JG Importadora Ltda</span>
+        <a href="../#colecao">Voltar aos modelos</a>
+    </footer>
+
+    <script src="produtos.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

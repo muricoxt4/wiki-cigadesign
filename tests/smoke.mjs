@@ -123,12 +123,12 @@ try {
         prices: document.querySelectorAll('.watch-card-price').length,
         filters: document.querySelectorAll('.filter-btn').length,
         search: Boolean(document.getElementById('watchSearch')),
-        pricingSheetLink: document.querySelector('.nav-sheet-link')?.href,
+        pricingPageLink: document.querySelector('.nav-pricing-link')?.getAttribute('href'),
         links: [...document.querySelectorAll('.watch-card-btn')].map(link => link.getAttribute('href')),
         images: [...document.querySelectorAll('.watch-card-img')].map(image => image.getAttribute('src'))
     })`);
     assert.deepEqual({ cards: initial.cards, visible: initial.visible, prices: initial.prices, filters: initial.filters, search: initial.search }, { cards: 28, visible: 28, prices: 28, filters: 6, search: true });
-    assert.match(initial.pricingSheetLink, /docs\.google\.com\/spreadsheets\/d\/1ObSm5woDBo3rejyG67yWBrVyWDGTEnr35Djx_tufVYc/);
+    assert.equal(initial.pricingPageLink, 'precos/');
 
     const aventurCount = await home.client.evaluate(`(() => { document.querySelector('[data-filter="aventur"]').click(); return [...document.querySelectorAll('.watch-card')].filter(card => !card.classList.contains('hidden')).length; })()`);
     assert.equal(aventurCount, 6, 'Filtro Aventur');
@@ -154,6 +154,15 @@ try {
     })`);
     assert(tabletHomeState.scrollWidth <= tabletHomeState.innerWidth + 1, `Overflow no cabeçalho tablet: ${JSON.stringify(tabletHomeState)}`);
     assert.equal(tabletHomeState.toggleVisible, true, 'Menu tablet deve usar o botão hambúrguer');
+    const tabletMenuState = await tabletHome.client.evaluate(`(() => {
+        document.querySelector('.nav-toggle').click();
+        const link = document.querySelector('.nav-pricing-link');
+        return {
+            open: document.querySelector('.nav-header').classList.contains('nav-open'),
+            linkVisible: Boolean(link && link.getBoundingClientRect().height)
+        };
+    })()`);
+    assert.deepEqual(tabletMenuState, { open: true, linkVisible: true }, 'Tabela de preços deve aparecer dentro do menu hambúrguer');
     await closePage(tabletHome);
 
     for (const href of initial.links.filter((item) => !['hunter/', 'moon-walker/'].includes(item))) {
@@ -162,14 +171,14 @@ try {
             button: document.querySelectorAll('.sale-hero-btn').length,
             form: document.querySelectorAll('#formulario-venda .sale-form').length,
             model: document.querySelector('[name="modelo"]')?.value,
-            pricingSheetLink: document.querySelectorAll('[data-pricing-sheet-link]').length,
+            pricingPageLink: document.querySelectorAll('[data-pricing-page-link]').length,
             topPrice: document.querySelector('.sale-top-price strong')?.textContent.trim(),
             priceImmediatelyAfterTitle: document.querySelector('.hero-title')?.nextElementSibling?.classList.contains('sale-top-price')
         })`);
         assert.equal(saleState.button, 1, `Botão VENDER ausente em ${href}`);
         assert.equal(saleState.form, 1, `Formulário ausente em ${href}`);
         assert(saleState.model, `Modelo oculto ausente em ${href}`);
-        assert.equal(saleState.pricingSheetLink, 1, `Link da planilha ausente em ${href}`);
+        assert.equal(saleState.pricingPageLink, 1, `Link da tabela de preços ausente em ${href}`);
         assert(saleState.topPrice, `Preço destacado ausente em ${href}`);
         assert.equal(saleState.priceImmediatelyAfterTitle, true, `Preço fora do topo em ${href}`);
         await closePage(page);
@@ -180,7 +189,7 @@ try {
         sellButtons: document.querySelectorAll('.sale-hero-btn').length,
         forms: document.querySelectorAll('#formulario-venda .sale-form').length,
         fields: [...document.querySelectorAll('#formulario-venda [name]')].map(field => field.name),
-        pricingSheetLink: document.querySelectorAll('[data-pricing-sheet-link]').length,
+        pricingPageLink: document.querySelectorAll('[data-pricing-page-link]').length,
         price: document.querySelector('.purchase-price-value')?.textContent.trim(),
         blackGoldPrice: [...document.querySelectorAll('.purchase-variant-prices li')].find(item => item.textContent.includes('Black Gold'))?.querySelector('span:last-child')?.textContent.trim(),
         topPrice: document.querySelector('.sale-top-price strong')?.textContent.trim(),
@@ -188,7 +197,7 @@ try {
     })`);
     assert.equal(legacyState.sellButtons, 1);
     assert.equal(legacyState.forms, 1);
-    assert.equal(legacyState.pricingSheetLink, 1);
+    assert.equal(legacyState.pricingPageLink, 1);
     assert.equal(legacyState.price, 'R$ 5.990,00');
     assert.equal(legacyState.blackGoldPrice, 'R$ 4.990,00');
     assert.equal(legacyState.topPrice, 'R$ 5.990,00');
@@ -217,7 +226,8 @@ try {
         price: document.querySelector('.catalog-price-summary strong')?.textContent.trim(),
         topPrice: document.querySelector('.sale-top-price strong')?.textContent.trim(),
         priceImmediatelyAfterTitle: document.querySelector('.hero-title')?.nextElementSibling?.classList.contains('sale-top-price'),
-        pricingSheetLink: document.querySelectorAll('[data-pricing-sheet-link]').length,
+        pricingPageLink: document.querySelectorAll('[data-pricing-page-link]').length,
+        menuToggle: document.querySelectorAll('.catalog-menu-toggle').length,
         sellButtons: document.querySelectorAll('.sale-hero-btn').length,
         forms: document.querySelectorAll('#formulario-venda .sale-form').length
     })`);
@@ -227,16 +237,75 @@ try {
         price: 'R$ 16.990,00',
         topPrice: 'R$ 16.990,00',
         priceImmediatelyAfterTitle: true,
-        pricingSheetLink: 1,
+        pricingPageLink: 1,
+        menuToggle: 1,
         sellButtons: 1,
         forms: 1
     });
+    const currentMenuState = await current.client.evaluate(`(() => {
+        document.querySelector('.catalog-menu-toggle').click();
+        const menu = document.querySelector('.catalog-menu');
+        const pricingLink = menu.querySelector('[data-pricing-page-link]');
+        return {
+            open: document.querySelector('.catalog-nav').classList.contains('catalog-menu-open'),
+            expanded: document.querySelector('.catalog-menu-toggle').getAttribute('aria-expanded'),
+            hidden: menu.hidden,
+            pricingLinkVisible: Boolean(pricingLink.getBoundingClientRect().height)
+        };
+    })()`);
+    assert.deepEqual(currentMenuState, { open: true, expanded: 'true', hidden: false, pricingLinkVisible: true }, 'Tabela de preços deve abrir dentro do menu do produto');
     await closePage(current);
+
+    const pricing = await openPage('/precos/');
+    const pricingState = await pricing.client.evaluate(`({
+        products: window.CIGA_PRICING?.length,
+        cards: document.querySelectorAll('.pricing-card').length,
+        images: [...document.querySelectorAll('.pricing-card-image img')].map(image => new URL(image.src).pathname),
+        uniqueImages: new Set([...document.querySelectorAll('.pricing-card-image img')].map(image => image.getAttribute('src'))).size,
+        firstPrice: document.querySelector('.pricing-card .pricing-price strong')?.textContent.trim(),
+        googleSheetLinks: document.querySelectorAll('a[href*="docs.google.com/spreadsheets"]').length,
+        menuToggle: document.querySelectorAll('.pricing-menu-toggle').length
+    })`);
+    assert.equal(pricingState.products, 60, 'A página deve receber as 60 linhas da CIGA PRICCING');
+    assert.equal(pricingState.cards, 60, 'A página deve renderizar os 60 itens da planilha');
+    assert.equal(pricingState.uniqueImages, 52, 'As 52 imagens incorporadas devem ser reaproveitadas');
+    assert.equal(pricingState.firstPrice, 'R$ 14.990,00', 'O primeiro preço deve vir da coluna BRAZIL WEB');
+    assert.equal(pricingState.googleSheetLinks, 0, 'A página de preços não deve depender do Google Sheets');
+    assert.equal(pricingState.menuToggle, 1);
+    for (const pathname of [...new Set(pricingState.images)]) await checkResponse(pathname);
+
+    const pricingSearchState = await pricing.client.evaluate(`(() => {
+        const input = document.getElementById('pricingSearch');
+        input.value = 'U055-TIGR-6B';
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+        return {
+            cards: document.querySelectorAll('.pricing-card').length,
+            description: document.querySelector('.pricing-card h3')?.textContent
+        };
+    })()`);
+    assert.equal(pricingSearchState.cards, 1, 'Busca da tabela deve localizar um SKU específico');
+    assert.match(pricingSearchState.description, /Moon Walker/i);
+    await closePage(pricing);
 
     const mobile = await openPage('/moon-walker/', { width: 390, height: 844 });
     const mobileState = await mobile.client.evaluate(`({ innerWidth: window.innerWidth, scrollWidth: document.documentElement.scrollWidth, navWidth: document.querySelector('.catalog-nav').getBoundingClientRect().width })`);
     assert(mobileState.scrollWidth <= mobileState.innerWidth + 1, `Overflow mobile: ${JSON.stringify(mobileState)}`);
     await closePage(mobile);
+
+    const pricingMobile = await openPage('/precos/', { width: 390, height: 844 });
+    const pricingMobileState = await pricingMobile.client.evaluate(`(() => {
+        document.querySelector('.pricing-menu-toggle').click();
+        return {
+            innerWidth: window.innerWidth,
+            scrollWidth: document.documentElement.scrollWidth,
+            menuOpen: document.querySelector('.pricing-nav').classList.contains('pricing-menu-open'),
+            menuVisible: !document.getElementById('pricingMenu').hidden
+        };
+    })()`);
+    assert(pricingMobileState.scrollWidth <= pricingMobileState.innerWidth + 1, `Overflow na tabela mobile: ${JSON.stringify(pricingMobileState)}`);
+    assert.equal(pricingMobileState.menuOpen, true);
+    assert.equal(pricingMobileState.menuVisible, true);
+    await closePage(pricingMobile);
 
     console.log('Smoke test aprovado: catálogo, filtros, busca, rotas, imagens, preços e formulário.');
 } finally {

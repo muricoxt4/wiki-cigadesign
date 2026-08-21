@@ -157,7 +157,7 @@ button:focus-visible {
 
 .nav-links a:hover { color: var(--text); }
 .nav-links a:hover::after { width: 100%; }
-.nav-links .nav-sheet-link { color: var(--gold-light); }
+.nav-links .nav-pricing-link { color: var(--gold-light); }
 
 @media (max-width: 1180px) and (min-width: 769px) {
     .nav-header { padding: 1.2rem 2rem; }

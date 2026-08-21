@@ -10,26 +10,13 @@
         document.head.appendChild(stylesheet);
     }
 
-    const pricingSheetUrl = 'https://docs.google.com/spreadsheets/d/1ObSm5woDBo3rejyG67yWBrVyWDGTEnr35Djx_tufVYc/edit';
+    const pricingPageUrl = currentScript ? new URL('../precos/', currentScript.src).href : '../precos/';
     const legacyNavLinks = document.querySelector('.nav-links');
-    const catalogNav = document.querySelector('.catalog-nav');
 
-    if (legacyNavLinks && !legacyNavLinks.querySelector('[data-pricing-sheet-link]')) {
+    if (legacyNavLinks && !legacyNavLinks.querySelector('[data-pricing-page-link]')) {
         const item = document.createElement('li');
-        item.innerHTML = `<a href="${pricingSheetUrl}" target="_blank" rel="noopener" data-pricing-sheet-link>Planilha de Preços</a>`;
+        item.innerHTML = `<a href="${pricingPageUrl}" data-pricing-page-link>Tabela de Preços</a>`;
         legacyNavLinks.appendChild(item);
-    }
-
-    if (catalogNav && !catalogNav.querySelector('[data-pricing-sheet-link]')) {
-        const pricingLink = document.createElement('a');
-        pricingLink.href = pricingSheetUrl;
-        pricingLink.target = '_blank';
-        pricingLink.rel = 'noopener';
-        pricingLink.className = 'sale-pricing-header-link';
-        pricingLink.dataset.pricingSheetLink = '';
-        pricingLink.textContent = 'Planilha de Preços ↗';
-        catalogNav.querySelector('.catalog-back')?.insertAdjacentElement('beforebegin', pricingLink);
-        catalogNav.classList.add('sale-pricing-nav-active');
     }
 
     const titleNode = document.querySelector('.hero-title');

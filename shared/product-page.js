@@ -4,6 +4,7 @@
     const slug = document.body.dataset.product;
     const product = window.CIGA_CATALOG && window.CIGA_CATALOG[slug];
     const root = document.getElementById('productPage');
+    const pricingPageUrl = '../precos/';
 
     if (!root || !product) {
         if (root) root.innerHTML = '<p class="catalog-error">Produto não encontrado.</p>';
@@ -26,7 +27,13 @@
     root.innerHTML = `
         <header class="catalog-nav">
             <a href="../" class="catalog-logo" aria-label="Voltar à página de modelos"><img src="../imagens/ciga-logo.png" alt="CIGA design"></a>
-            <a href="../#colecao" class="catalog-back">← Todos os modelos</a>
+            <button class="catalog-menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="catalogMenu">
+                <span></span><span></span><span></span>
+            </button>
+            <nav class="catalog-menu" id="catalogMenu" aria-label="Menu da página" hidden>
+                <a href="../#colecao" class="catalog-back">Todos os modelos</a>
+                <a href="${pricingPageUrl}" class="catalog-pricing-link" data-pricing-page-link>Tabela de Preços</a>
+            </nav>
         </header>
         <main>
             <section class="catalog-product-hero">
@@ -64,4 +71,31 @@
             <a href="../#colecao">Voltar ao catálogo</a>
         </footer>
     `;
+
+    const catalogNav = root.querySelector('.catalog-nav');
+    const menuToggle = root.querySelector('.catalog-menu-toggle');
+    const menu = root.querySelector('.catalog-menu');
+
+    const closeMenu = () => {
+        catalogNav.classList.remove('catalog-menu-open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.setAttribute('aria-label', 'Abrir menu');
+        menu.hidden = true;
+    };
+
+    menuToggle.addEventListener('click', () => {
+        const opening = menuToggle.getAttribute('aria-expanded') !== 'true';
+        catalogNav.classList.toggle('catalog-menu-open', opening);
+        menuToggle.setAttribute('aria-expanded', String(opening));
+        menuToggle.setAttribute('aria-label', opening ? 'Fechar menu' : 'Abrir menu');
+        menu.hidden = !opening;
+    });
+
+    menu.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
+    document.addEventListener('click', (event) => {
+        if (!catalogNav.contains(event.target)) closeMenu();
+    });
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') closeMenu();
+    });
 })();
