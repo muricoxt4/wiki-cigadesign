@@ -1,5 +1,9 @@
 .sale-hero-btn { display: inline-flex; align-items: center; justify-content: center; min-width: 150px; min-height: 48px; margin-top: 1.6rem; padding: .9rem 1.8rem; color: #050505; background: linear-gradient(135deg,#c9a962,#e0c787); border: 1px solid #e0c787; border-radius: 2px; font: 700 .75rem/1 Arial,sans-serif; letter-spacing: 2.5px; text-decoration: none; transition: transform .25s ease,box-shadow .25s ease; }
 .sale-hero-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(201,169,98,.28); }
+.sale-price-promoted .hero-title { margin-bottom: .8rem; }
+.sale-top-price,.sale-top-price.catalog-price-summary { box-sizing: border-box; width: fit-content; min-width: min(280px,100%); margin: 0 0 1.5rem; padding: 1rem 1.25rem; display: flex; flex-direction: column; gap: .35rem; background: linear-gradient(135deg,rgba(201,169,98,.14),rgba(255,255,255,.035)); border: 1px solid rgba(201,169,98,.35); border-left: 4px solid #c9a962; border-radius: 3px; box-shadow: 0 12px 32px rgba(0,0,0,.18); }
+.sale-top-price span,.sale-top-price.catalog-price-summary span { color: #b9b9be; font: 600 .62rem/1.2 Arial,sans-serif; letter-spacing: 2px; text-transform: uppercase; }
+.sale-top-price strong,.sale-top-price.catalog-price-summary strong { color: #e0c787; font: 500 clamp(1.45rem,2.5vw,2rem)/1.15 'Helvetica Neue',Arial,sans-serif; white-space: nowrap; }
 .sale-section { scroll-margin-top: 100px; padding: 7rem 4rem; color: #fff; background: radial-gradient(circle at 15% 20%,rgba(46,123,196,.11),transparent 36%),#080809; border-top: 1px solid rgba(255,255,255,.1); }
 .sale-shell { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: .78fr 1.22fr; gap: clamp(2.5rem,6vw,6rem); align-items: start; }
 .sale-eyebrow { display: block; margin-bottom: 1rem; color: #c9a962; font-size: .65rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; }

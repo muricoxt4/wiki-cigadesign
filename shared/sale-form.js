@@ -16,6 +16,26 @@
     if (!titleNode || !heroContent || !footer || document.getElementById('formulario-venda')) return;
 
     const model = titleNode.textContent.replace(/\s+/g, ' ').trim();
+    const currentPriceSummary = heroContent.querySelector('.catalog-price-summary');
+    const priceValueNode = document.querySelector('.purchase-price-value');
+    const priceLabelNode = document.querySelector('.purchase-price-label');
+    let topPrice = currentPriceSummary;
+
+    if (!topPrice && priceValueNode) {
+        topPrice = document.createElement('div');
+        topPrice.innerHTML = `
+            <span>${priceLabelNode?.textContent.trim() || 'Preço Brasil'}</span>
+            <strong>${priceValueNode.textContent.trim()}</strong>
+        `;
+    }
+
+    if (topPrice) {
+        topPrice.classList.add('sale-top-price');
+        topPrice.setAttribute('aria-label', `Preço de ${model}`);
+        titleNode.insertAdjacentElement('afterend', topPrice);
+        heroContent.classList.add('sale-price-promoted');
+    }
+
     const sellButton = document.createElement('a');
     sellButton.href = '#formulario-venda';
     sellButton.className = 'sale-hero-btn';

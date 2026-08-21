@@ -142,10 +142,18 @@ try {
 
     for (const href of initial.links.filter((item) => !['hunter/', 'moon-walker/'].includes(item))) {
         const page = await openPage(`/${href}`);
-        const saleState = await page.client.evaluate(`({ button: document.querySelectorAll('.sale-hero-btn').length, form: document.querySelectorAll('#formulario-venda .sale-form').length, model: document.querySelector('[name="modelo"]')?.value })`);
+        const saleState = await page.client.evaluate(`({
+            button: document.querySelectorAll('.sale-hero-btn').length,
+            form: document.querySelectorAll('#formulario-venda .sale-form').length,
+            model: document.querySelector('[name="modelo"]')?.value,
+            topPrice: document.querySelector('.sale-top-price strong')?.textContent.trim(),
+            priceImmediatelyAfterTitle: document.querySelector('.hero-title')?.nextElementSibling?.classList.contains('sale-top-price')
+        })`);
         assert.equal(saleState.button, 1, `Botão VENDER ausente em ${href}`);
         assert.equal(saleState.form, 1, `Formulário ausente em ${href}`);
         assert(saleState.model, `Modelo oculto ausente em ${href}`);
+        assert(saleState.topPrice, `Preço destacado ausente em ${href}`);
+        assert.equal(saleState.priceImmediatelyAfterTitle, true, `Preço fora do topo em ${href}`);
         await closePage(page);
     }
 
@@ -154,11 +162,15 @@ try {
         sellButtons: document.querySelectorAll('.sale-hero-btn').length,
         forms: document.querySelectorAll('#formulario-venda .sale-form').length,
         fields: [...document.querySelectorAll('#formulario-venda [name]')].map(field => field.name),
-        price: document.querySelector('.purchase-price-value')?.textContent.trim()
+        price: document.querySelector('.purchase-price-value')?.textContent.trim(),
+        topPrice: document.querySelector('.sale-top-price strong')?.textContent.trim(),
+        priceImmediatelyAfterTitle: document.querySelector('.hero-title')?.nextElementSibling?.classList.contains('sale-top-price')
     })`);
     assert.equal(legacyState.sellButtons, 1);
     assert.equal(legacyState.forms, 1);
     assert.equal(legacyState.price, 'R$ 5.990,00');
+    assert.equal(legacyState.topPrice, 'R$ 5.990,00');
+    assert.equal(legacyState.priceImmediatelyAfterTitle, true);
     for (const field of ['nome', 'email', 'telefone', 'documento', 'sku', 'codigoVenda']) assert(legacyState.fields.includes(field), `Campo ausente: ${field}`);
 
     const popupState = await legacy.client.evaluate(`(() => {
@@ -181,10 +193,20 @@ try {
         title: document.querySelector('.hero-title')?.textContent.trim(),
         imageLoaded: Boolean(document.querySelector('.catalog-product-image img')?.complete && document.querySelector('.catalog-product-image img')?.naturalWidth),
         price: document.querySelector('.catalog-price-summary strong')?.textContent.trim(),
+        topPrice: document.querySelector('.sale-top-price strong')?.textContent.trim(),
+        priceImmediatelyAfterTitle: document.querySelector('.hero-title')?.nextElementSibling?.classList.contains('sale-top-price'),
         sellButtons: document.querySelectorAll('.sale-hero-btn').length,
         forms: document.querySelectorAll('#formulario-venda .sale-form').length
     })`);
-    assert.deepEqual(currentState, { title: 'Moon Walker Edition', imageLoaded: true, price: 'R$ 16.990,00', sellButtons: 1, forms: 1 });
+    assert.deepEqual(currentState, {
+        title: 'Moon Walker Edition',
+        imageLoaded: true,
+        price: 'R$ 16.990,00',
+        topPrice: 'R$ 16.990,00',
+        priceImmediatelyAfterTitle: true,
+        sellButtons: 1,
+        forms: 1
+    });
     await closePage(current);
 
     const mobile = await openPage('/moon-walker/', { width: 390, height: 844 });
